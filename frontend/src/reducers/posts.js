@@ -10,9 +10,11 @@ import {
 export default function posts(state = {}, action) {
     switch (action.type) {
         case RECEIVE_POSTS:
+            let posts = {}
+            action.posts.forEach(post => posts[post.id] = post)
             return {
                 ...state,
-                ...action.posts
+                ...posts
             }
         case EDIT_POST:
             const {
@@ -31,9 +33,9 @@ export default function posts(state = {}, action) {
         case ADD_POST:
             return {
                 ...state,
-                [action.post.id]: action.post
+                ...action.post
             }
-        case SET_VOTE_POST:          
+        case SET_VOTE_POST:
             return {
                 ...state,
                 [action.id]: {
@@ -41,20 +43,20 @@ export default function posts(state = {}, action) {
                     voteScore: action.voteScore
                 }
             }
-        case UP_VOTE_POST:          
+        case UP_VOTE_POST:
             return {
                 ...state,
                 [action.id]: {
                     ...state[action.id],
-                    voteScore: state[action.id].voteScore++
+                    voteScore: state[action.id].voteScore + 1
                 }
             }
-        case DOWN_VOTE_POST:          
+        case DOWN_VOTE_POST:        
             return {
                 ...state,
                 [action.id]: {
                     ...state[action.id],
-                    voteScore: state[action.id].voteScore--
+                    voteScore: state[action.id].voteScore - 1
                 }
             }
         default:
