@@ -1,16 +1,16 @@
 import postApi from './PostApi'
 import categoryApi from './CategoryApi'
-import utilities from './utilities';
+import Utilities from './Utilities';
 
-export function getInitialData() {
-    return Promise.all([
-        categoryApi.getAll(),
-        postApi.getAll()
-    ]).then(([categories, posts]) => ({
-        categories,
-        posts,
-        /** get distict authors */
-        authors: utilities.createAuthors([...new Set((posts.map(p => p.author)).sort())])
-    }))
-
+export async function getInitialData() {
+    const resultCategories = await categoryApi.getAll()
+    const resultPosts = await postApi.getAll()
+    const field = Utilities.getFromLocalStorage('sort')   
+    const authors = Utilities.getFromLocalStorage('authors')
+    return {
+        categories : resultCategories.data.categories,
+        posts: resultPosts.data,
+        sort: { field },
+        authors
+    }   
 }
