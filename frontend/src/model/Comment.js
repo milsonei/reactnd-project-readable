@@ -1,11 +1,11 @@
-import utilities from '../utils/utilities'
+import Utilities from '../utils/Utilities'
 /**
  * Class about post comment
  */
 class Comment{
     constructor(body, author, parentId){
-        this.id = utilities.generateUID()
-        this.timestamp = utilities.generateTimestamp()
+        this.id = Utilities.generateUID()
+        this.timestamp = Utilities.generateTimestamp()
         this.body = body
         this.author = author
         this.parentId = parentId

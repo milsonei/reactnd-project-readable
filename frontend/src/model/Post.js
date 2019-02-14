@@ -1,11 +1,11 @@
-import utilities from '../utils/utilities'
+import Utilities from '../utils/Utilities'
 /**
  * Post
  */
 class Post {
     constructor(title, body, author, category){
-        this.id = utilities.generateUID()
-        this.timestamp = utilities.generateTimestamp()
+        this.id = Utilities.generateUID()
+        this.timestamp = Utilities.generateTimestamp()
         this.title = title
         this.body = body
         this.author = author
