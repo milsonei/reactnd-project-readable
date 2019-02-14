@@ -1,21 +1,22 @@
 import React, {Component} from 'react'
 import { Select, Form, Tooltip } from 'antd';
-import handleSortFeed from '../actions/sort';
-import { connect } from 'react-redux'
-class SortSelector extends Component{
+class SortMenu extends Component{
    menuItems = [{id:"voteScore", name:"Vote Score"}, 
                 {id:"timestamp", name:"Creation date"}, 
-                {id: "title", name: "Title"}]                    
-    handleChange(value){   
-      const { dispatch } = this.props  
-      dispatch(handleSortFeed(value))
+                {id: "title", name: "Title"}]  
+    /**
+     * Call routine parent responsible for sorting the post feed
+     * @param {string} field field name for sorting
+     */                  
+    handleChange(field){         
+      this.props.onSortFeed(field)
     }
     /**
      * Generate select items
      */
     generateItens() {
       return this.menuItems.map((item, index) => (
-        <Select.Option key={`item-sort-${index}`} value={item.id}>{item.name}</Select.Option>                   
+        <Select.Option key={`item-sort-${index}`} value={item.id}>{item.name}</Select.Option>
       ))
     }
     
@@ -28,7 +29,7 @@ class SortSelector extends Component{
           initialValue: field || 'timestamp'
         })(
           
-            <Select key="sort" placeholder="Sort by" className="sort" onChange={(value) => this.handleChange(value)}>       
+            <Select key="sort" placeholder="Sort by" className="sort" onChange={(value) => this.handleChange(value)}>
               {this.generateItens()}
             </Select>
          
@@ -37,14 +38,5 @@ class SortSelector extends Component{
     }
   }
 
-  function mapStateToProps({ sort }){  
-    if (sort) {
-      const { field } = sort    
-      return {
-        field
-      }
-    }
-    return {}
-  }
-  const WrappedSortSelector = Form.create()(SortSelector);
-  export default connect(mapStateToProps)(WrappedSortSelector)
+  const WrappedSortMenu = Form.create()(SortMenu)
+  export default WrappedSortMenu
