@@ -6,62 +6,95 @@ import { Link, withRouter } from 'react-router-dom'
 import {
     Comment, Icon, Tooltip, Avatar,
   } from 'antd';
+import "antd/dist/antd.css";
 /** Based on https://www.quora.com */
-class AuthoralPost extends Component {
-  
-  componentDidUpdate(prevProps, prevState) {
-    
-  }
-    getActions = (id, voteScore) => {   
-        return [
+class AuthoralPost extends Component {    
+    getActions = () => {   
+      const iconStyles = {
+        height: '20px',
+        width: '20px'
+      }
+      const labelStyle = { paddingLeft: 8, cursor: 'auto' }
+       const { voteScore, commentCount, category} = this.props.post
+        return [          
           <span>
             <Tooltip title="Up Vote">
               <Icon
-                type="up-square"
+                type="plus-circle"
+                style={iconStyles}
                 theme={voteScore > 0 ? 'filled' : 'outlined'}
-                onClick={(e) => { this.handleUpVote(e, id) }}
+                onClick={this.handleUpVote}
               />
             </Tooltip>
-            <span style={{ paddingLeft: 8, cursor: 'auto' }}>
-              {voteScore} point{Math.abs(voteScore) > 1 ? "s" : ""}
-            </span>
-          </span>,
-          <span>
+            <span style={{paddingLeft: 4, paddingRight: 4, cursor: 'auto' }}>
+            {voteScore === 0 ? "" : voteScore > 0 ? "Upvote: " : "Downvote: "}{voteScore === 0 ? "none" : voteScore}{voteScore === 0 ? " vote" : ""}
+           </span>
             <Tooltip title="Down Vote">
               <Icon
-                type="down-square"
+                type="minus-circle"
+                style={iconStyles}
                 theme={voteScore < 0 ? 'filled' : 'outlined'}
-                onClick={(e) => { this.handleDownVote(e, id)} }
+                onClick={this.handleDownVote}
               />
-            </Tooltip>       
-          </span>,
-          <span>Reply to</span>
+            </Tooltip>          
+          </span>, 
+            <span>
+            <Tooltip title="Comments">
+              <Icon
+                type="message"
+                style={iconStyles}
+              />
+            </Tooltip>
+            <span style={labelStyle}>{commentCount} comments</span>  
+          </span>         
+          ,
+          <span>
+          <Link to={`/posts/${category}`}>
+          <Tooltip title={`Category ${category}`}>
+            <Icon
+              type="tags"
+              style={iconStyles}
+            />
+          </Tooltip>
+          <span style={labelStyle}>{category}</span> 
+          </Link>
+        </span>      
+         ,
+          <span>
+          <Tooltip title="Reply to">
+            <Icon
+              type="retweet"
+              style={iconStyles}
+            />
+          </Tooltip>
+          <span style={labelStyle}>Reply to</span>  
+        </span>      
         ]
       }
-  
-    handleUpVote = async (e, id) => {
+   
+    handleUpVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch } = this.props
-
-        dispatch(handleUpVotePost(id))
+        const { dispatch, post } = this.props
+        
+        dispatch(handleUpVotePost(post.id))
     }
 
-    handleDownVote = async (e, id) => {
+    handleDownVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch } = this.props
+        const { dispatch, post } = this.props
 
-        dispatch(handleDownVotePost(id))
+        dispatch(handleDownVotePost(post.id))
     }
     render(){
         const { post, authors, handleCommentLike, handleCommentDislike } = this.props
         const postAuthor = authors[post.author]
         return (
-            <Link to={`/post/${post.id}`} className='post'>
+            <div className='post'>
                 <Comment
                 key={`post_${post.id}`}
-                actions={this.getActions(post.id, post.voteScore)}
+                actions={this.getActions()}
                 author={post.author}
                 avatar={(
                     <Avatar
@@ -71,8 +104,10 @@ class AuthoralPost extends Component {
                 )}
                 content={(
                     <div>
-                    <h1>{post.title}</h1>
-                    <p>{post.body}</p>          
+                      <Link to={`/post/${post.id}`}>
+                        <h1>{post.title}</h1>
+                        <p>{post.body}</p> 
+                      </Link>         
                     </div>
                 )}
                 datetime={(
@@ -81,7 +116,7 @@ class AuthoralPost extends Component {
                     </Tooltip>
                 )}
                 >
-                {comments.map((comment) => (
+                {post.comments && post.comments.map((comment) => (
                     <Comment
                     key={`comment_readable_${comment.id}`}
                     author={authors[comment.author]}
@@ -91,7 +126,7 @@ class AuthoralPost extends Component {
                     />
                 ))}
                 </Comment>
-            </Link>
+            </div>
         )
     }
 }
