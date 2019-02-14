@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AuthoralPost from './AuthoralPost'
 import AuthoralComment from './AuthoralComment'
-import NewComment from './NewComment';
-import { handleAllComments } from '../actions/comments';
+import NewComment from './NewCommentPage';
+import { handleAllComments } from '../actions/comments'
 
 class PostPage extends Component{
     async componentDidMount(){
