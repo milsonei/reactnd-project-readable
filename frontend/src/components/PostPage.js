@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import AuthoralPost from './AuthoralPost'
 import AuthoralComment from './AuthoralComment'
-import NewComent from './NewComent';
-import { handleInitialData } from '../actions/shared';
+import NewComment from './NewComment';
+import { handleAllComments } from '../actions/comments';
 
 class PostPage extends Component{
-    componentDidMount(){
-        this.props.dispatch(handleInitialData())
+    async componentDidMount(){
+        this.props.dispatch(handleAllComments(this.props.id))
     }
     render(){
         const { id, comments } = this.props
@@ -15,7 +15,7 @@ class PostPage extends Component{
         return (
             <div>
                 <AuthoralPost id={id}/>
-                <NewComent id={id}/>
+                <NewComment id={id}/>
                 {comments.length !== 0 && <h3 className='center'>Replies</h3>}
                 <ul>
                     {comments.map((replyId) =>(
@@ -30,14 +30,16 @@ class PostPage extends Component{
     }
 }
 
-function mapStateToProps({ posts, categories }, props){
+function mapStateToProps({ posts }, props){
     const { id } = props.match.params
     const post = posts ? posts[id] : null
     return {
-        id,
+        id,        
         comments: post === null
                  ? []
-                 : comments.filter(c => c.parentId === id).sort((a,b) => comments[b].timestamp - comments[a].timestamp)                 
+                 : post.comments 
+                    ? Object.keys(post.comments).sort((a,b) => post.comments[b].timestamp - post.comments[a].timestamp).map(a => post.comments[a])
+                    : []
     }
 }
 
