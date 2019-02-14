@@ -1,7 +1,7 @@
 import commentApi from '../utils/CommentApi'
 import Comment from '../model/Comment'
 import { showLoading, hideLoading } from 'react-redux-loading'
-import DialogUtil from '../utils/DialogUtil'
+import { showError } from './error';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const SET_VOTE_COMMENT = 'SET_VOTE_COMMENT'
@@ -58,7 +58,7 @@ export function handleAllComments(postId){
             dispatch(receiveComments(postId, comments));
         }
         catch (e) {
-            DialogUtil.showErrorNotification('New comment', 'The was an error fetching comments. Try again.');
+            dispatch(showError('New comment', 'The was an error fetching comments. Try again.'));
         }
         return dispatch(hideLoading);    
     }
@@ -76,7 +76,7 @@ export function handleAddComment(postId, body, author){
             dispatch(addComment(postId, comment));
         }
         catch (e) {
-            DialogUtil.showErrorNotification('New comment', 'The was an error adding new comment. Try again.');
+            dispatch(showError('New comment', 'The was an error adding new comment. Try again.'));
         }
         return dispatch(hideLoading);    
     }
@@ -93,7 +93,7 @@ export function handleUpVoteComment(postId, commentId){
         }
         catch (e) {
             dispatch(downVoteComment(postId, commentId));
-            DialogUtil.showErrorNotification('Up vote', 'The was an error up voting the comment. Try again.');
+            dispatch(showError('Up vote', 'The was an error up voting the comment. Try again.'));
         }
         return dispatch(hideLoading);
     }
@@ -110,7 +110,7 @@ export function handleDownVoteComment(postId, commentId){
         }
         catch (e) {
             dispatch(upVoteComment(postId, commentId));
-            DialogUtil.showErrorNotification('Down vote', 'The was an error down voting the comment. Try again.');
+            dispatch(showError('Down vote', 'The was an error down voting the comment. Try again.'));
         }
         return dispatch(hideLoading);
     }
