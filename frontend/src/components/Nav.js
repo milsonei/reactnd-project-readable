@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
-import CategoryMenu from '../components/CategoryMenu'
+import CategoryMenu from './CategoryMenu'
 import SortSelector from './SortSelector';
 class Nav extends Component {
     /**
