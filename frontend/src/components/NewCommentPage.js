@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { handleAddComment } from '../actions/comment'
+import { handleAddComment } from '../actions/comments'
 import { Redirect } from 'react-router-dom'
 
-class NewComment extends Component{
+class NewCommentPage extends Component{
     state = {
         title: '',
         body: '',
@@ -108,4 +108,4 @@ class NewComment extends Component{
     }
 }
 
-export default connect()(NewComment)
+export default connect()(NewCommentPage)

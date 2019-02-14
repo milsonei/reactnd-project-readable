@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { handleAddPost } from '../actions/posts'
 import { Redirect } from 'react-router-dom'
 
-class NewPost extends Component{
+class NewPostPage extends Component{
     state = {
         title: '',
         body: '',
@@ -108,4 +108,4 @@ class NewPost extends Component{
     }
 }
 
-export default connect()(NewPost)
+export default connect()(NewPostPage)
