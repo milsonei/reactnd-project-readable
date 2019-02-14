@@ -8,10 +8,15 @@ import {
   } from 'antd';
 class AuthoralComment extends Component{
   getActions = (id, voteScore) => {   
+    let iconStyles = {
+      height: '20px',
+      width: '20px'
+    };
     return [
       <span>
         <Tooltip title="Up Vote">
           <Icon
+            style={iconStyles}
             type="up-square"
             theme={voteScore > 0 ? 'filled' : 'outlined'}
             onClick={(e) => { this.handleUpVote(e, id) }}
@@ -24,6 +29,7 @@ class AuthoralComment extends Component{
       <span>
         <Tooltip title="Down Vote">
           <Icon
+            style={iconStyles}
             type="down-square"
             theme={voteScore < 0 ? 'filled' : 'outlined'}
             onClick={(e) => { this.handleDownVote(e, id)} }
