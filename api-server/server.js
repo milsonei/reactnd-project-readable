@@ -6,6 +6,7 @@ const cors = require('cors')
 const config = require('./config')
 const categories = require('./categories')
 const posts = require('./posts')
+const users = require('./users')
 const comments = require('./comments')
 
 const app = express()
@@ -47,7 +48,7 @@ app.get('/', (req, res) => {
         timestamp - timestamp in whatever format you like, you can use Date.now() if you like
         title - String
         body - String
-        author - String
+        user - String
         category: Any of the categories listed in categories.js. Feel free to extend this list as you desire.
 
     GET /posts/:id
@@ -66,7 +67,7 @@ app.get('/', (req, res) => {
       PARAMS:
         title - String
         body - String
-
+        
     DELETE /posts/:id
       USAGE:
         Sets the deleted flag for a post to 'true'.
@@ -84,7 +85,7 @@ app.get('/', (req, res) => {
         id: Any unique ID. As with posts, UUID is probably the best here.
         timestamp: timestamp. Get this however you want.
         body: String
-        author: String
+        user: String
         parentId: Should match a post id in the database.
 
     GET /comments/:id
@@ -100,16 +101,43 @@ app.get('/', (req, res) => {
     PUT /comments/:id
       USAGE:
         Edit the details of an existing comment
-
       PARAMS:
         timestamp: timestamp. Get this however you want.
         body: String
 
-    DELETE /comments/:id
+      DELETE /comments/:id
       USAGE:
         Sets a comment's deleted flag to 'true'
- </pre>
-  `
+
+      GET /users/:id
+      USAGE:
+        Get the details of a single user
+  
+      GET /users
+      USAGE:
+        Get all of the users.
+            
+      GET /users/:id
+      USAGE:
+        Get the details of a single user
+
+      POST /users
+        USAGE:
+          Add a new user
+  
+        PARAMS:
+          id - user nickname, but any unique id will work
+          timestamp - timestamp in whatever format you like, you can use Date.now() if you like
+          avatar 
+
+      PUT /users/:id
+        USAGE:
+          Edit the details of an existing user
+        PARAMS:          
+          password - String
+          gender - String
+          avatar - String
+ </pre>`
 
   res.send(help)
 })
@@ -155,7 +183,20 @@ app.get('/:category/posts', (req, res) => {
 })
 
 app.get('/posts', (req, res) => {
-    posts.getAll(req.token)
+  posts.getAll(req.token)
+    .then(
+        (data) => res.send(data),
+        (error) => {
+            console.error(error)
+            res.status(500).send({
+               error: 'There was an error.'
+        })
+      }
+    )
+})
+
+app.get('/users', (req, res) => {
+    users.getAll(req.token)
       .then(
           (data) => res.send(data),
           (error) => {
@@ -192,6 +233,20 @@ app.get('/posts/:id', (req, res) => {
           }
       )
 })
+
+app.get('/users/:id', (req, res) => {
+  users.get(req.token, req.params.id)
+    .then(
+        (data) => res.send(data),
+        (error) => {
+            console.error(error)
+            res.status(500).send({
+                error: 'There was an error.'
+            })
+        }
+    )
+})
+
 
 app.delete('/posts/:id', (req, res) => {
     posts.disable(req.token, req.params.id)
@@ -233,6 +288,19 @@ app.put('/posts/:id', bodyParser.json(), (req, res) => {
               })
           }
       )
+})
+
+app.put('/users/:id', bodyParser.json(), (req, res) => {
+  users.edit(req.token, req.params.id, req.body)
+    .then(
+      (data) => res.send(data),
+        (error) => {
+            console.error(error)
+            res.status(500).send({
+                error: 'There was an error.'
+            })
+        }
+    )
 })
 
 app.get('/posts/:id/comments', (req, res) => {
@@ -285,6 +353,19 @@ app.post('/comments', bodyParser.json(), (req, res) => {
               })
           }
       )
+})
+
+app.post('/users', bodyParser.json(), (req, res) => {
+  users.add(req.token, req.body)
+    .then(
+        (data) => res.send(data),
+        (error) => {
+            console.error(error)
+            res.status(500).send({
+                error: 'There was an error.'
+            })
+        }
+    )
 })
 
 app.post('/comments/:id', bodyParser.json(), (req, res) => {
