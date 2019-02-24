@@ -45,3 +45,6 @@ The following endpoints are available:
 | `POST /comments/:id` | Used for voting on a comment. | **option** - [String]: Either `"upVote"` or `"downVote"`.  |
 | `PUT /comments/:id` | Edit the details of an existing comment. | **timestamp** - timestamp. Get this however you want. <br> **body** - [String] |
 | `DELETE /comments/:id` | Sets a comment's deleted flag to `true`. | &nbsp; |
+| `GET /users` | Get all of the users. List is found in `users.js`. |  |
+| `GET /users/:id` | Get the details for a single user. | |
+| `PUT /users/:id` | Edit the details of an existing user. | **avatar** - [String] <br> **password** - [String] 
