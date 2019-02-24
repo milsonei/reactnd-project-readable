@@ -154,6 +154,11 @@ A new browser window should automatically open displaying the app. If it doesn't
  ![Delete Post](src/images/screenshots/delete-post.jpg "delete-post")
 - When you click the edit button, the application will be redirected to the edit page where you can change any details of the post.
  ![Edit Post](src/images/screenshots/edit-post.jpg "edit-post")
+- To add a comment, click the post you want to show details. Now just write your comment and add. Good luck!
+ ![New Comment](src/images/screenshots/new-comment.jpg "new-comment")
+- After you add a comment, it will be added to the comment list below the post, where you can delete it, if desired.
+ ![Post and Comments](src/images/screenshots/post-and-comments.jpg "post-and-comments")
+- You can vote for a post or comment by just clicking the + to up vote and - to down vote buttons ![Vote Score](src/images/screenshots/vote-score.jpg "vote-score"). Feel free!
 ## Backend Server
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
