@@ -25,76 +25,76 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 ├── public
 │   ├── favicon.ico #React Icon, You may change if you wish.
 │   └── index.html #DO NOT MODIFY
-└── src
-    ├── actions
-    │   ├── authedUser.js #Action creator for Authed with sigin and signout actions.#
-    │   ├── avatar.js #Action creator for Avatar with receive new avatar action.#
-	│   ├── categories.js #Action creator for Categories with receive new categories action.#
-	│   ├── comments.js #Action creator for Comments with receive, add and delete categories action.#	
-	│   ├── error.js #Action creator to show an error notification about the previous action having completed with error.#
-	│   ├── loaded.js #Action creator for indicate that app was loaded.#
-	│   ├── posts.js #Action creator for Posts with CRUD, incremend and decrement comment counter actions.#
-	│   ├── redirect.js #Indicates that a route redirection will occur.#
-	│   ├── remember.js # ction creator that indicates the username to be remembered at next login.#
-	│   └── search.js #Action creator that cleans the text previously searched, as well as the cleaning of this text upon completion.#
-	│   ├── shared.js #Action creator to load the initial data# 	
-    │   ├── success.js #Action creator that indicates success of the previous action.# 
-	│   └── users.js #Creator of actions for Users with actions of creation of new user, change of password and change of avatar.# 	
-	├── api
-    │   ├── api.js #Async function to get initial data from remote and local data storage.#
-	│   ├── BaseApi.js #Api base class that sends web requests to the remote data server using axios, a promise based HTTP client for the browser and node.js#
-	│   ├── CategoryApi.js #Class responsible for sending requests to the remote data server relative to the Category entity. This class is a BaseApi class specialization.#
-    │   ├── CommentApi.js #Class responsible for sending requests to the remote data server relative to the Comment entity. This class is a BaseApi class specialization.#
-    │   ├── PostApi.js #Class responsible for sending requests to the remote data server relative to the Post entity. This class is a BaseApi class specialization.#
-    │   ├── UserApi.js #Class responsible for sending requests to the remote data server relative to the User entity. This class is a BaseApi class specialization.#
-	│   └──  myaxios.js #New instance of axios with a custom config. Axios is a promise based HTTP client for the browser and node.js.#
-    ├── components
-    │   ├── App.js #This is the root of app. Contains static HTML right now.#
-    │   ├── CategoryMeny.js #Stateless component responsible for create a category menu based on Dropdown component from React UI library ANTD.#
-    │   ├── CommentEditor.js #Component responsible for create a textarea for inputting comments, a "Add Comment "button and "Clear' button based on Form, TextArea e Button components from React UI library ANTD.#
-    │   ├── CommentList.js #Component responsible for create a comment list based on custom component MyComment.#
-	│   ├── FeedPage.js #Component responsible for rendering a page that lists all posts based on the MyPost custom component, which shows the title, body limited to 60 characters, author, time, comment counter, and post category.#
-	│   ├── LoginPage.js #Component responsible for rendering a page that allows a registered user to enter the app using a nickname and password, as well as a link to open the new user registration page.#
-	│   ├── MyComment.js #Component responsible for displaying all details of a comment, such as author, creation time, and buttons to increment or decrement the comment score. If the logged in user is the author, he or she can delete the comment.#
-	│   ├── MyPost.js #Component responsible for displaying all details of a post, such as author, creation time, comments counter, category, and buttons to increment or decrement the posting score. If the logged in user is the author, they can delete or edit the post in view mode. The following React UI library ANTD components are used: Alert, Comment, Icon, Tooltip, Avatar, Row, Col and Popconfirm.#
-    │   ├── Nav.js #Component responsible for generating the top menu of the application. Because it is a component that is rendered on all pages, it serves as the point of redirection. This component renders the Menu, Icon and Avatar components from React UI library ANTD.#	
-    │   ├── PostEditPage.js #Component responsible for rendering a page for creating and editing a particular post. The AND components used on this page are: Avatar, Tooltip, Select, Form, Button, Input.#
-	│   ├── PostViewPage.js #Component responsible for creating the preview page for all details of a particular post and the comments associated with this post. The AND components used on this page are: Form, Avatar, Comment, and Col.#
-	│   ├── SearchInput.js #Component responsible for creating a search field based on the Search component from React UI library ANTD#
-	│   ├── SortSelector.js #Component responsible for creating a list containing fields available for sorting a list of posts or comments. The AND components used on this page are: Form, Select and Tooltip.#
-	│   ├── UserEditPage.js #Component responsible for rendering a page for creating and editing a particular user. The AND components used on this page are: Icon, Form, Button, Input, Avatar, Tooltip, Select, Row, Col.#
-	├── middleware
-	│   ├── cache.js #Middleware responsible for being a common point of capture and storage in the local data storage coming from several actions.#
-	│   ├── error.js #Component responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.#
-	│   ├── index.js #Initialize store and dispatch, which will be used later.#
-	│   └── logger.js #Middleware responsible for logging action details and status details in the browser console. Available only in the development environment.#	
-	├── model
-	│   ├── Comment.js #Class associated with a data entity Comment#
-	│   ├── Post.js #Class associated with a data entity Post#
-	│   └── User.js #Class associated with a data entity User#
-	├── reducer - Specify how the application's state changes in response to actions sent to the store
-	│   ├── authedUser.js
-	│   ├── avatar.js
-	│   ├── categories.js
-	│   ├── comments.js
-	│   ├── index.js #combine reducers#
-	│   ├── loaded.js 
-	│   ├── posts.js 
-	│   ├── redirect.js
-	│   ├── remember.js
-	│   ├── search.js
-	│   ├── sort.js
-	│   ├── success.js 
-	│   └── users.js
-    ├── css #Styles for app#
-    │   ├── App.css
-    ├── utils #utilities for app
-    │   ├── Utilities.js #This class provides support functions for the entire application#
-	│   ├── SecurityUtil.js #Utility that provides functions for encrypting and decrypting using the CryptoJS API#
-    │   └── DialoUtil.js #This class provides functions that show notifications and dialogs from the ANTD library#
-    ├── App.test.js #Used for testing. Provided with Create React App.
-    ├── index.css #Global styles. You probably won't need to change anything here.
-    └── index.js #You should not need to modify this file. It is used for DOM rendering only.
+├── src
+│    ├── actions
+│    │   ├── authedUser.js #Action creator for Authed with sigin and signout actions.#
+│    │   ├── avatar.js #Action creator for Avatar with receive new avatar action.#
+│    │   ├── categories.js #Action creator for Categories with receive new categories action.#│
+│    │   ├── comments.js #Action creator for Comments with receive, add and delete categories action.#	
+│    │   ├── error.js #Action creator to show an error notification about the previous action having completed with error.#
+│    │   ├── loaded.js #Action creator for indicate that app was loaded.#
+│    │   ├── posts.js #Action creator for Posts with CRUD, incremend and decrement comment counter actions.#
+│    │   ├── redirect.js #Indicates that a route redirection will occur.#
+│    │   ├── remember.js # ction creator that indicates the username to be remembered at next login.#
+│    │   ├── search.js #Action creator that cleans the text previously searched, as well as the cleaning of this text upon completion.#
+│    │   ├── shared.js #Action creator to load the initial data# 	
+│    │   ├── success.js #Action creator that indicates success of the previous action.# 
+│    │   └── users.js #Creator of actions for Users with actions of creation of new user, change of password and change of avatar.# 	
+│    ├── api
+│    │   ├── api.js #Async function to get initial data from remote and local data storage.#
+│    │   ├── BaseApi.js #Api base class that sends web requests to the remote data server using axios, a promise based HTTP client for the browser and node.js#
+│    │   ├── CategoryApi.js #Class responsible for sending requests to the remote data server relative to the Category entity. This class is a BaseApi class specialization.#
+│    │   ├── CommentApi.js #Class responsible for sending requests to the remote data server relative to the Comment entity. This class is a BaseApi class specialization.#
+│    │   ├── PostApi.js #Class responsible for sending requests to the remote data server relative to the Post entity. This class is a BaseApi class specialization.#
+│    │   ├── UserApi.js #Class responsible for sending requests to the remote data server relative to the User entity. This class is a BaseApi class specialization.#
+│    │   └──  myaxios.js #New instance of axios with a custom config. Axios is a promise based HTTP client for the browser and node.js.#
+│    ├── components
+│    │   ├── App.js #This is the root of app. Contains static HTML right now.#
+│    │   ├── CategoryMeny.js #Stateless component responsible for create a category menu based on Dropdown component from React UI library ANTD.#
+│    │   ├── CommentEditor.js #Component responsible for create a textarea for inputting comments, a "Add Comment "button and "Clear' button based on Form, TextArea e Button components from React UI library ANTD.#
+│    │   ├── CommentList.js #Component responsible for create a comment list based on custom component MyComment.#
+│    │   ├── FeedPage.js #Component responsible for rendering a page that lists all posts based on the MyPost custom component, which shows the title, body limited to 60 characters, author, time, comment counter, and post category.#
+│    │   ├── LoginPage.js #Component responsible for rendering a page that allows a registered user to enter the app using a nickname and password, as well as a link to open the new user registration page.#
+│    │   ├── MyComment.js #Component responsible for displaying all details of a comment, such as author, creation time, and buttons to increment or decrement the comment score. If the logged in user is the author, he or she can delete the comment.#
+│    │   ├── MyPost.js #Component responsible for displaying all details of a post, such as author, creation time, comments counter, category, and buttons to increment or decrement the posting score. If the logged in user is the author, they can delete or edit the post in view mode. The following React UI library ANTD components are used: Alert, Comment, Icon, Tooltip, Avatar, Row, Col and Popconfirm.#
+│    │   ├── Nav.js #Component responsible for generating the top menu of the application. Because it is a component that is rendered on all pages, it serves as the point of redirection. This component renders the Menu, Icon and Avatar components from React UI library ANTD.#	
+│    │   ├── PostEditPage.js #Component responsible for rendering a page for creating and editing a particular post. The AND components used on this page are: Avatar, Tooltip, Select, Form, Button, Input.#
+│    │   ├── PostViewPage.js #Component responsible for creating the preview page for all details of a particular post and the comments associated with this post. The AND components used on this page are: Form, Avatar, Comment, and Col.#
+│    │   ├── SearchInput.js #Component responsible for creating a search field based on the Search component from React UI library ANTD#
+│    │   ├── SortSelector.js #Component responsible for creating a list containing fields available for sorting a list of posts or comments. The AND components used on this page are: Form, Select and Tooltip.#
+│    │   ├── UserEditPage.js #Component responsible for rendering a page for creating and editing a particular user. The AND components used on this page are: Icon, Form, Button, Input, Avatar, Tooltip, Select, Row, Col.#
+│    ├── middleware
+│    │   ├── cache.js #Middleware responsible for being a common point of capture and storage in the local data storage coming from several actions.#
+│    │   ├── error.js #Component responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.#
+│    │   ├── index.js #Initialize store and dispatch, which will be used later.#
+│    │   └── logger.js #Middleware responsible for logging action details and status details in the browser console. Available only in the development environment.#	
+│    ├── model
+│    │   ├── Comment.js #Class associated with a data entity Comment#
+│    │   ├── Post.js #Class associated with a data entity Post#
+│    │   └── User.js #Class associated with a data entity User#
+│    ├── reducer - Specify how the application''s state changes in response to actions sent to the store
+│    │   ├── authedUser.js
+│    │   ├── avatar.js
+│    │   ├── categories.js
+│    │   ├── comments.js
+│    │   ├── index.js #combine reducers#
+│    │   ├── loaded.js 
+│    │   ├── posts.js 
+│    │   ├── redirect.js
+│    │   ├── remember.js
+│    │   ├── search.js
+│    │   ├── sort.js
+│    │   ├── success.js 
+│    │   └── users.js
+│    ├── css #Styles for app#
+│    │   ├── App.css
+│    ├── utils #utilities for app
+│    │   ├── Utilities.js #This class provides support functions for the entire application#│
+│    │   ├── SecurityUtil.js #Utility that provides functions for encrypting and decrypting using the CryptoJS API#
+│    │   └── DialoUtil.js #This class provides functions that show notifications and dialogs from the ANTD library#
+│    ├── App.test.js #Used for testing. Provided with Create React App.
+│    ├── index.css #Global styles. You probably won't need to change anything here.
+└───└── index.js #You should not need to modify this file. It is used for DOM rendering only.
 ```
 
 ### Main dependencies
@@ -123,7 +123,7 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
       │   ├── icon #Semantic vector graphics. see more in https://ant.design/components/icon/
       │   └── modal #Modal dialogs. see more in https://ant.design/components/modal/
       ├── sort-by (version >= 1.2.0) #utility to create comparator functions for the native Array.sort() in both node and the browser.
-                                      #Allows for sorting by multiple properties. see more in https://www.npmjs.com/package/sort-by
+      │                               #Allows for sorting by multiple properties. see more in https://www.npmjs.com/package/sort-by
       └── prop-types (version >= 15.6.2) #Runtime type checking for React props and similar objects. see more in https://www.npmjs.com/package/prop-types
 ```
 
@@ -143,11 +143,19 @@ A new browser window should automatically open displaying the app. If it doesn't
  ![Detail](src/images/screenshots/post-detail.jpg "detail")
 - To add a comment or a new post, the user must be logged in to the application.
  ![Signin](src/images/screenshots/signin.jpg "signin")
-
-
-_Note: The backend API is limited to a fixed set of [search terms](#search-terms) -- see below for valid search options_
-
-
+- If you have not yet registered for the application, the process is fast. You should only choose a unique nickname, your gender and an avatar that will be randomly generated according to the chosen genre. 
+ ![New User](src/images/screenshots/create-user.jpg "new-user")
+- If you have not yet registered for the application, the process is fast. You should only choose a unique nickname, your gender and an avatar that will be randomly generated according to the chosen genre. if you do not like the generated avatar, you can click the button on the right side to generate a new one.
+ ![New User](src/images/screenshots/create-user.jpg "new-user")
+-After registering, the application will be redirected to the login page, where you can enter the newly registered credentials.
+-You can now create your first post!
+ ![New Post](src/images/screenshots/new-post.jpg "new-post")
+-After clicking on your newly created post to see the details, the options for editing and deleting it will be available.
+![Personal Post](src/images/screenshots/personal-post.jpg "personal-post")
+-When you click the delete button, a message will be displayed to confirm the deletion of the post.
+![Delete Post](src/images/screenshots/delete-post.jpg "delete-post")
+-When you click the edit button, the application will be redirected to the edit page where you can change any details of the post.
+![Edit Post](src/images/screenshots/edit-post.jpg "edit-post")
 ## Backend Server
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
