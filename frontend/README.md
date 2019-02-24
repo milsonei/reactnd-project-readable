@@ -101,25 +101,25 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 ```bash
  └── node_modules
       ├── axios (version >= 0.18.0) #Promise based HTTP client for the browser and node.js. See more in https://github.com/axios/axios#installing
-	  ├── crypto-js (version >= 3.1.9-1) #JavaScript library of crypto standards. See more in https://github.com/brix/crypto-js#nodejs-install
+      ├── crypto-js (version >= 3.1.9-1) #JavaScript library of crypto standards. See more in https://github.com/brix/crypto-js#nodejs-install
       ├── DateDiff (version >= 0.2.1) #DateDiff is a minimalized javascript date arithmetic extension.. See more in https://github.com/melvinsembrano/date-diff#installation
       ├── moment (version >= 0.2.1) #Parse, validate, manipulate, and display dates and times in JavaScript. See more in http://momentjs.com
       ├── antd (version >= 3.10.9) #Ant Design of React - React UI library antd that contains a set of high quality components and demos for building rich, interactive user interfaces. See more in https://ant.design/docs/react/introduce#Installation
       ├── lib
-	  │   ├── avatar #Avatars can be used to represent people or objects. It supports images, Icons, or letters. See more in https://ant.design/components/avatar/
-	  │   ├── Button #To trigger an operation. See more in https://ant.design/components/button/
+      │   ├── avatar #Avatars can be used to represent people or objects. It supports images, Icons, or letters. See more in https://ant.design/components/avatar/
+      │   ├── Button #To trigger an operation. See more in https://ant.design/components/button/
       │   ├── tooltip #A simple text popup tip. See more in https://ant.design/components/tooltip/
       │   ├── alert #Alert component for feedback. See more in https://ant.design/components/alert/
       │   ├── Popconfirm #A simple and compact confirmation dialog of an action. See more in https://ant.design/components/Popconfirm/
-	  │   ├── Form #Form is used to collect, validate, and submit the user input, usually contains various form items including checkbox, radio, input, select, and etc. See more in https://ant.design/components/form/
-	  │   ├── Input #A basic widget for getting the user input is a text field. Keyboard and mouse can be used for providing or changing data. See more in https://ant.design/components/input/
+      │   ├── Form #Form is used to collect, validate, and submit the user input, usually contains various form items including checkbox, radio, input, select, and etc. See more in https://ant.design/components/form/
+      │   ├── Input #A basic widget for getting the user input is a text field. Keyboard and mouse can be used for providing or changing data. See more in https://ant.design/components/input/
       │   ├── Select #Select component to select value from options. See more in https://ant.design/components/select/
-	  │   ├── Dropdown #A dropdown list. See more in https://ant.design/components/dropdown/
+      │   ├── Dropdown #A dropdown list. See more in https://ant.design/components/dropdown/
       │   ├── grid #Grids System. See more in https://ant.design/components/grid/
       │   │   ├──Col
       │   │   └── Row 
       │   ├── notification # Display a notification message globally. see more in https://ant.design/components/notification/
-	  │   ├── Menu # Menu list of Navigation. see more in https://ant.design/components/menu/
+      │   ├── Menu # Menu list of Navigation. see more in https://ant.design/components/menu/
       │   ├── icon #Semantic vector graphics. see more in https://ant.design/components/icon/
       │   └── modal #Modal dialogs. see more in https://ant.design/components/modal/
       ├── sort-by (version >= 1.2.0) #utility to create comparator functions for the native Array.sort() in both node and the browser.
@@ -143,19 +143,17 @@ A new browser window should automatically open displaying the app. If it doesn't
  ![Detail](src/images/screenshots/post-detail.jpg "detail")
 - To add a comment or a new post, the user must be logged in to the application.
  ![Signin](src/images/screenshots/signin.jpg "signin")
-- If you have not yet registered for the application, the process is fast. You should only choose a unique nickname, your gender and an avatar that will be randomly generated according to the chosen genre. 
- ![New User](src/images/screenshots/create-user.jpg "new-user")
 - If you have not yet registered for the application, the process is fast. You should only choose a unique nickname, your gender and an avatar that will be randomly generated according to the chosen genre. if you do not like the generated avatar, you can click the button on the right side to generate a new one.
  ![New User](src/images/screenshots/create-user.jpg "new-user")
--After registering, the application will be redirected to the login page, where you can enter the newly registered credentials.
--You can now create your first post!
+- After registering, the application will be redirected to the login page, where you can enter the newly registered credentials.
+- You can now create your first post!
  ![New Post](src/images/screenshots/new-post.jpg "new-post")
--After clicking on your newly created post to see the details, the options for editing and deleting it will be available.
-![Personal Post](src/images/screenshots/personal-post.jpg "personal-post")
--When you click the delete button, a message will be displayed to confirm the deletion of the post.
-![Delete Post](src/images/screenshots/delete-post.jpg "delete-post")
--When you click the edit button, the application will be redirected to the edit page where you can change any details of the post.
-![Edit Post](src/images/screenshots/edit-post.jpg "edit-post")
+- After clicking on your newly created post to see the details, the options for editing and deleting it will be available.
+ ![Personal Post](src/images/screenshots/personal-post.jpg "personal-post")
+- When you click the delete button, a message will be displayed to confirm the deletion of the post.
+ ![Delete Post](src/images/screenshots/delete-post.jpg "delete-post")
+- When you click the edit button, the application will be redirected to the edit page where you can change any details of the post.
+ ![Edit Post](src/images/screenshots/edit-post.jpg "edit-post")
 ## Backend Server
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
