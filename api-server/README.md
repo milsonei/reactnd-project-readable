@@ -46,5 +46,6 @@ The following endpoints are available:
 | `PUT /comments/:id` | Edit the details of an existing comment. | **timestamp** - timestamp. Get this however you want. <br> **body** - [String] |
 | `DELETE /comments/:id` | Sets a comment's deleted flag to `true`. | &nbsp; |
 | `GET /users` | Get all of the users. List is found in `users.js`. |  |
+| `POST /users` | Add a new user. | **id** - unique nickname <br> **timestamp** - [Timestamp] Can in whatever format you like, you can use `Date.now()` if you like. <br> **avatar** - [String] <br> **password** - [String] <br> **genre** - [String] Male or Female <br>. |
 | `GET /users/:id` | Get the details for a single user. | |
-| `PUT /users/:id` | Edit the details of an existing user. | **avatar** - [String] <br> **password** - [String] 
+| `PUT /users/:id` | Edit the details of an existing user. | **avatar** - [String] <br> **password** - [String] <br> **genre** - [String] Male or Female <br>.
