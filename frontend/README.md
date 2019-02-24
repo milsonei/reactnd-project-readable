@@ -138,6 +138,8 @@ A new browser window should automatically open displaying the app. If it doesn't
 
 ## How to Use the App
 - After loading the app, the post feed appears first.
+- In the categories menu, you can choose the desired category for filtering.
+ ![Categories](src/images/screenshots/categories.jpg "categories")
 - Controls for sorting and searching are available on the top toolbar.
 - To view the details of a post you need to click on it.
  ![Detail](src/images/screenshots/post-detail.jpg "detail")
@@ -159,6 +161,11 @@ A new browser window should automatically open displaying the app. If it doesn't
 - After you add a comment, it will be added to the comment list below the post, where you can delete it, if desired.
  ![Post and Comments](src/images/screenshots/post-and-comments.jpg "post-and-comments")
 - You can vote for a post or comment by just clicking the + to up vote and - to down vote buttons ![Vote Score](src/images/screenshots/vote-score.jpg "vote-score"). Feel free!
+- In the user menu, options are available to view and edit the profile, change the password, and exit the application.
+- In the profile you can choose a new avatar.
+ ![Profile](src/images/screenshots/edit-profile.jpg "edit-profile")
+- You can also change your password.
+ ![Change password](src/images/screenshots/change-password.jpg "change-password")
 ## Backend Server
 
 To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
