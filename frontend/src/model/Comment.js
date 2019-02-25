@@ -1,8 +1,14 @@
 import Utilities from '../utils/Utilities'
 /**
- * Class about post comment
+ * Class associated with a data entity Comment
  */
 class Comment{
+    /**
+     * Constructor
+     * @param {string} body Comment body
+     * @param {string} author Comment author
+     * @param {string} parentId Post id
+     */
     constructor(body, author, parentId){
         this.id = Utilities.generateUID()
         this.timestamp = Utilities.generateTimestamp()
@@ -11,7 +17,7 @@ class Comment{
         this.parentId = parentId
     }
     /**
-     * Any unique ID. As with posts, UUID is probably the best here.
+     * Any unique ID. As with comment, UUID is probably the best here.
      */
     id;
     /**
