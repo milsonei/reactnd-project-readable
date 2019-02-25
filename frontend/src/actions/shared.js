@@ -1,23 +1,28 @@
-import { getInitialData } from '../utils/api'
+import { getInitialData } from '../api/api'
 import { setAuthedUser } from './authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { receivePosts } from './posts';
-import { sortFeed } from './sort';
-import { receiveAuthors } from './authors';
+import { sortItems } from './sort';
+import { receiveUsers } from './users';
 import { receiveCategories } from './categories';
-
-const AUTHED_ID = 'milsonei'
-
+import { setRemember } from './remember';
+import { setLoadead } from './loaded';
+/**
+ * Action creator to load the initial data
+ */
 export function handleInitialData(){
     return (dispatch) => {
         dispatch(showLoading())
         return getInitialData()
-              .then(({categories, posts, sort, authors }) => {
-                        dispatch(sortFeed(sort.field))  
-                        dispatch(receiveAuthors(authors))   
-                        dispatch(receivePosts(posts))                        
-                        dispatch(receiveCategories(categories))                          
-                        dispatch(setAuthedUser(AUTHED_ID))                                          
+              .then(({categories, posts, sort, users, authedUser, remember }) => {                        
+                        dispatch(sortItems(sort.posts.field, sort.posts.mode, 'posts'))         
+                        dispatch(sortItems(sort.comments.field, sort.comments.mode, 'comments'))               
+                        dispatch(receiveUsers(users))
+                        dispatch(setAuthedUser(authedUser.id))   
+                        dispatch(receivePosts(posts))
+                        dispatch(receiveCategories(categories))   
+                        dispatch(setRemember(remember.id))                                                                     
+                        dispatch(setLoadead())                     
                         dispatch(hideLoading())
                       
                     })
