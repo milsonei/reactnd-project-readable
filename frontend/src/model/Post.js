@@ -1,8 +1,15 @@
 import Utilities from '../utils/Utilities'
 /**
- * Post
+ * Class associated with a data entity Post
  */
 class Post {
+    /**
+     * Constructor
+     * @param {string} title Post title
+     * @param {string} body Post body
+     * @param {string} author Post author
+     * @param {string} category Post category
+     */
     constructor(title, body, author, category){
         this.id = Utilities.generateUID()
         this.timestamp = Utilities.generateTimestamp()
