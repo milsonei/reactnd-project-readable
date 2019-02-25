@@ -1,18 +1,22 @@
 import {
-    SORT_FEED
+    SORT
 } from '../actions/sort'
-
-export default function sort(state = null, action) {
+/**
+ * This reducer specify how the sort's state changes in response to actions sent to the store
+ * @param {any} state 
+ * @param {any} action 
+ */
+export default function sort(state = {}, action) {
     switch (action.type) {
-        case SORT_FEED:            
-            let { field } = action           
-            if (field) {                
-                return {
-                    ...state,
-                    field
+        case SORT:                    
+            const { field, mode, itemToSort } = action
+            return {
+                ...state,
+                [itemToSort]: {
+                    field,
+                    mode
                 }
-            }
-            return state            
+            }        
         default:
             return state
     }
