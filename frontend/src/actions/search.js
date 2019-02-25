@@ -7,7 +7,7 @@ export const CLEAR_SEARCH = "CLEAR_SEARCH"
 export const SET_SEARCH = "SET_SEARCH"
 
 /**
- * Action creator that indicates the next text to be searched
+ * Action creator that indicates the next text to be searched.
  * @param {string} text 
  */
 export function setSearch(text){    
