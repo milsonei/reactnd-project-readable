@@ -1,13 +1,39 @@
-export const SORT_FEED = "SORT_FEED"
-export function sortFeed(field){    
+import {
+    showLoading,
+    hideLoading
+} from 'react-redux-loading'
+import { showError } from './error';
+export const SORT = "SORT"
+/**
+ * 
+ * @param {string} field Field to sort
+ * @param {string} mode Sort mode like asc (ascending) and desc (descending)
+ * @param {string} itemToSort Item to sort like posts or comments
+ */
+export function sortItems(field, mode, itemToSort){    
     return {
-        type: SORT_FEED,
-        field: field
+        type: SORT,
+        field,
+        mode,
+        itemToSort
     }
 }
 
-export default function handleSortFeed(field){
-    return (dispatch) => {
-        dispatch(sortFeed(field))
+
+/**
+ * The handler responsible for sorting posts or comments
+ * @param {string} field The field name
+ * @param {string} mode The sorting mode
+ * @param {string} type Item to sort - posts or comments
+ */
+export function handleSetSort(field, mode, itemToSort) {
+    return async (dispatch) => {
+        dispatch(showLoading)
+        try {           
+            dispatch(sortItems(field, mode, itemToSort))
+        } catch (e) {
+            dispatch(showError(itemToSort, `The was an error sorting ${itemToSort}. Try again.`));
+        }
+        return dispatch(hideLoading)
     }
 }
