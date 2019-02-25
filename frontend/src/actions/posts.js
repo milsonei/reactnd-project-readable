@@ -1,4 +1,4 @@
-import postApi from '../utils/PostApi'
+import postApi from '../api/PostApi'
 import Post from '../model/Post'
 import {
     showLoading,
@@ -7,13 +7,18 @@ import {
 import {
     showError
 } from '../actions/error'
+import { enableRedirect } from './redirect';
+import { deleteAllComments } from './comments';
+import { setSuccess } from './success';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const EDIT_POST = 'EDIT_POST'
 export const SET_VOTE_POST = 'SET_VOTE_POST'
 export const UP_VOTE_POST = 'UP_VOTE_POST'
 export const DOWN_VOTE_POST = 'DOWN_VOTE_POST'
-
+export const INCREMENT_COMMENT_COUNTER = 'INCREMENT_COMMENT_COUNTER'
+export const DECREMENT_COMMENT_COUNTER = 'DECREMENT_COMMENT_COUNTER'
+export const DELETE_POST = 'DISABLE_POST'
 /**
  * Action responsible for receiving a collection of posts
  * @param {string} posts Collection of posts
@@ -21,21 +26,46 @@ export const DOWN_VOTE_POST = 'DOWN_VOTE_POST'
 export function receivePosts(posts) {
     return {
         type: RECEIVE_POSTS,
-        posts: posts
+        posts
     }
 }
+
 /**
  * Action responsible for changing post details
  * @param {string} id The post id
  * @param {string} title The title of the post
  * @param {string} body The body of the post
+ * @param {string} category The category of the post
  */
-function editPost(id, title, body) {
+function editPost(id, title, body, category) {
     return {
         type: EDIT_POST,
         id,
         title,
-        body
+        body,
+        category
+    }
+}
+
+/**
+ * Action responsible for increment comment count
+ * @param {string} id The post id 
+ */
+export function incrementCommentCounter(id) {
+    return {
+        type: INCREMENT_COMMENT_COUNTER,
+        id
+    }
+}
+
+/**
+ * Action responsible for increment comment count
+ * @param {string} id The post id 
+ */
+export function decrementCommentCounter(id) {
+    return {
+        type: DECREMENT_COMMENT_COUNTER,
+        id
     }
 }
 
@@ -47,6 +77,18 @@ function addPost(post) {
     return {
         type: ADD_POST,
         post
+    }
+}
+
+
+/**
+ * Action responsible for disable a post
+ * @param {any} post The post
+ */
+function deletePost(id) {
+    return {
+        type: DELETE_POST,
+        id
     }
 }
 /**
@@ -82,18 +124,21 @@ function setVotePost(id, voteScore) {
         voteScore
     }
 }
+
 /**
  * The handler responsible for sending changed post details
  * @param {string} id The id of the post
  * @param {string} title The title of the post
  * @param {string} body the body of the post
+ * @param {string} category the category of the post
  */
-export function handleEditPost(id, title, body) {
+export function handleEditPost(id, title, body, category) {
     return async (dispatch) => {
         dispatch(showLoading)
         try {
-            await postApi.edit(id, title, body)
-            dispatch(editPost(id, title, body))
+            await postApi.edit(id, title, body, category)
+            dispatch(editPost(id, title, body, category))
+            dispatch(enableRedirect(`/post/${id}`))
         } catch (e) {
             dispatch(showError('Edit post', 'The was an error editing post. Try again.'));
         }
@@ -116,9 +161,33 @@ export function handleAddPost(title, body, author, category) {
         try {
             const res = await postApi.add(newPost)
             const post = res.data;
-            dispatch(addPost(post))            
+            dispatch(addPost(post))
+            dispatch(setSuccess())
+            dispatch(enableRedirect("/"))
         } catch (e) {
             dispatch(showError('New post', 'The was an error adding new post. Try again.'));
+        }
+        return dispatch(hideLoading)
+    }
+}
+
+/**
+ * The async handler responsible for sending new post
+ * @param {string} id The id of the post
+ */
+export function handleDeletePost(id) {
+    return async (dispatch) => {
+        dispatch(showLoading)
+     
+        try {
+            const res = await postApi.delete(id)
+            const post = res.data;
+            dispatch(deletePost(post.id))
+            dispatch(deleteAllComments(id))          
+            dispatch(setSuccess())
+            dispatch(enableRedirect())
+        } catch (e) {
+            dispatch(showError('New post', 'The was an error delete post. Try again.'));
         }
         return dispatch(hideLoading)
     }
