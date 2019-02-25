@@ -1,5 +1,8 @@
 import DialogUtil from '../utils/DialogUtil'
-const error = (store) => (next) => (action) => {
+/**
+ * Middleware responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.
+ */
+const error = () => (next) => (action) => {
     if (action.type === "SHOW_ERROR"){
         const { title, message } = action.error;
         DialogUtil.showErrorNotification(title, message);  
