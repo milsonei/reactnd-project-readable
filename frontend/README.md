@@ -35,8 +35,9 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── loaded.js #Action creator for indicate that app was loaded.#
 │    │   ├── posts.js #Action creator for Posts with CRUD, incremend and decrement comment counter actions.#
 │    │   ├── redirect.js #Indicates that a route redirection will occur.#
-│    │   ├── remember.js # ction creator that indicates the username to be remembered at next login.#
-│    │   ├── search.js #Action creator that cleans the text previously searched, as well as the cleaning of this text upon completion.#
+│    │   ├── remember.js # Action creator that indicates the username to be remembered at next login.#
+│    │   ├── search.js #Action creator that indicates the next text to be searched.#
+│    │   ├── sort.js #Action creator that indicates the sort field.#
 │    │   ├── shared.js #Action creator to load the initial data# 	
 │    │   ├── success.js #Action creator that indicates success of the previous action.# 
 │    │   └── users.js #Creator of actions for Users with actions of creation of new user, change of password and change of avatar.# 	
@@ -47,9 +48,9 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── CommentApi.js #Class responsible for sending requests to the remote data server relative to the Comment entity. This class is a BaseApi class specialization.#
 │    │   ├── PostApi.js #Class responsible for sending requests to the remote data server relative to the Post entity. This class is a BaseApi class specialization.#
 │    │   ├── UserApi.js #Class responsible for sending requests to the remote data server relative to the User entity. This class is a BaseApi class specialization.#
-│    │   └──  myaxios.js #New instance of axios with a custom config. Axios is a promise based HTTP client for the browser and node.js.#
+│    │   └── myaxios.js #New instance of axios with a custom config. Axios is a promise based HTTP client for the browser and node.js.#
 │    ├── components
-│    │   ├── App.js #This is the root of app. Contains static HTML right now.#
+│    │   ├── App.js #This is the root of app. Contains pages routes.#
 │    │   ├── CategoryMeny.js #Stateless component responsible for create a category menu based on Dropdown component from React UI library ANTD.#
 │    │   ├── CommentEditor.js #Component responsible for create a textarea for inputting comments, a "Add Comment "button and "Clear' button based on Form, TextArea e Button components from React UI library ANTD.#
 │    │   ├── CommentList.js #Component responsible for create a comment list based on custom component MyComment.#
@@ -65,7 +66,7 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── UserEditPage.js #Component responsible for rendering a page for creating and editing a particular user. The AND components used on this page are: Icon, Form, Button, Input, Avatar, Tooltip, Select, Row, Col.#
 │    ├── middleware
 │    │   ├── cache.js #Middleware responsible for being a common point of capture and storage in the local data storage coming from several actions.#
-│    │   ├── error.js #Component responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.#
+│    │   ├── error.js #Middleware responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.#
 │    │   ├── index.js #Initialize store and dispatch, which will be used later.#
 │    │   └── logger.js #Middleware responsible for logging action details and status details in the browser console. Available only in the development environment.#	
 │    ├── model
@@ -190,3 +191,5 @@ View API Server Documentation
 - [Udacity CSS Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/css.html)
 - [Udacity HTML Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/index.html)
 - [Udacity JavaScript Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)
+
+_This project is licensed under the terms of the MIT license._
