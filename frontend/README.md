@@ -122,8 +122,6 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
       │   ├── Menu # Menu list of Navigation. see more in https://ant.design/components/menu/
       │   ├── icon #Semantic vector graphics. see more in https://ant.design/components/icon/
       │   └── modal #Modal dialogs. see more in https://ant.design/components/modal/
-      ├── sort-by (version >= 1.2.0) #utility to create comparator functions for the native Array.sort() in both node and the browser.
-      │                               #Allows for sorting by multiple properties. see more in https://www.npmjs.com/package/sort-by
       └── prop-types (version >= 15.6.2) #Runtime type checking for React props and similar objects. see more in https://www.npmjs.com/package/prop-types
 ```
 
@@ -167,55 +165,14 @@ A new browser window should automatically open displaying the app. If it doesn't
 - You can also change your password.
  ![Change password](src/images/screenshots/change-password.jpg "change-password")
 ## Backend Server
-
-To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
-
-* [`getAll`](#getall)
-* [`update`](#update)
-* [`search`](#search)
-
-### `getAll`
-
-Method Signature:
-
-```js
-getAll()
-```
-
-* Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* This collection represents the books currently in the bookshelves in your app.
-
-### `update`
-
-Method Signature:
-
-```js
-update(book, shelf)
-```
-
-* book: `<Object>` containing at minimum an `id` attribute
-* shelf: `<String>` contains one of ["wantToRead", "currentlyReading", "read"]  
-* Returns a Promise which resolves to a JSON object containing the response data of the POST request
-
-### `search`
-
-Method Signature:
-
-```js
-search(query)
-```
-
-* query: `<String>`
-* Returns a Promise which resolves to a JSON object containing a collection of a maximum of 20 book objects.
-* These books do not know which shelf they are on. They are raw results only. You'll need to make sure that books have the correct state while on the search page.
+View API Server Documentation
 
 ## Resources and Documentation:
-
+- [avataaars generator] https://getavataaars.com
 - [Create-react-app Documentation](https://github.com/facebookincubator/create-react-app)
 - [React Router Documentation](http://knowbody.github.io/react-router-docs/)
 - [React Training/React Router](https://reacttraining.com/react-router/web/api/BrowserRouter)
 - [React API](https://facebook.github.io/react/docs/react-api.html)
-- [Handle Browser Window Resize in React](https://www.hawatel.com/blog/handle-window-resize-in-react/)
 - [Responsive Grid options](https://getbootstrap.com/docs/4.1/layout/grid/#grid-options)
 - [Ant Design of React Library Installation](https://ant.design/docs/react/introduce#Installation)
 - [Component antd Tooltip](https://ant.design/components/tooltip/)
@@ -228,14 +185,8 @@ search(query)
 
 ## Udacity Resources:
 
-- [Project starter template](https://github.com/udacity/reactnd-project-myreads-starter)
+- [Server Project starter template](https://github.com/udacity/reactnd-project-readable-starter)
 - [Project Rubric](https://review.udacity.com/#!/rubrics/918/view)
 - [Udacity CSS Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/css.html)
 - [Udacity HTML Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/index.html)
 - [Udacity JavaScript Style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html)
-
-#### Search Terms
-
-'Android', 'Art', 'Artificial Intelligence', 'Astronomy', 'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief', 'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook', 'Cricket', 'Cycling', 'Desai', 'Design', 'Development', 'Digital Marketing', 'Drama', 'Drawing', 'Dumas', 'Education', 'Everything', 'Fantasy', 'Film', 'Finance', 'First', 'Fitness', 'Football', 'Future', 'Games', 'Gandhi', 'History', 'History', 'Homer', 'Horror', 'Hugo', 'Ibsen', 'Journey', 'Kafka', 'King', 'Lahiri', 'Larsson', 'Learn', 'Literary Fiction', 'Make', 'Manage', 'Marquez', 'Money', 'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography', 'Poetry', 'Production', 'Program Javascript', 'Programming', 'React', 'Redux', 'River', 'Robotics', 'Rowling', 'Satire', 'Science Fiction', 'Shakespeare', 'Singh', 'Swimming', 'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality', 'Web Development', 'iOS'
-
-_This project is licensed under the terms of the MIT license._
