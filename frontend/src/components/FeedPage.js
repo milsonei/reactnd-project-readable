@@ -57,9 +57,9 @@ class FeedPage extends Component {
 }
 
 function mapStateToProps({ posts, comments, sort, search }, props){
-    const { id } = props.match.params
+    const { pathname } = props.location
+    const category = pathname === '/' ? null : pathname.replace("/", "")    
     const { field, mode } = sort.posts
-    const category = id 
     const activeKeys = Utilities.getActiveKeys(posts)
     let keysInSearch
     let inSearchMode = false;
