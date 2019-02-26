@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
  */
 class CommentList extends Component{
   render(){
-    const { comments } = this.props
+    const { comments, parent } = this.props
     let hiddenAttr = {}
     if (comments.length === 0){
       hiddenAttr = {style:{display:"none"}}
@@ -16,7 +16,7 @@ class CommentList extends Component{
     return (<div {...hiddenAttr} className="my-box widget-box comment no-border-radius"> <ul>
     {comments.map((id, index) =>(     
         <li className="content-container" key={`comment-container-${id}`}>
-            <MyComment id={id}/>
+            <MyComment parent={parent} id={id}/>
         </li>
     )
     )}
@@ -24,17 +24,23 @@ class CommentList extends Component{
   }
 }
 
-function mapStateToProps({ comments, sort }, { parent }) { 
+function mapStateToProps({ comments, sort, commentInEditMode }, { parent }) { 
+  let inEditMode = commentInEditMode.id && commentInEditMode.parentId === parent
   const { field, mode } = sort.comments
   const activeKeys = Utilities.getActiveKeys(comments)
   return {
-      comments: activeKeys
+      parent,
+      comments: inEditMode 
+                ? activeKeys
+                .filter(key => comments[key].id === commentInEditMode.id)
+                : activeKeys
                 .filter(key => comments[key].parentId === parent)
                 .sort((a,b) => Utilities.getSortCondition(comments[a][field], comments[b][field], mode))
   }
 }
 
-CommentList.propTypes = {
+CommentList.propTypes = {  
+  parent: PropTypes.string,
   comments: PropTypes.array
 }
 
