@@ -27,7 +27,7 @@ class MyPost extends Component {
         }
         const editStyle ={
           ...iconStyles,
-          color: 'red'
+          color: 'blue'
 
         }
         const commentIconStyle ={
@@ -76,7 +76,7 @@ class MyPost extends Component {
             {details 
             ? (<span>{commentIcon}{commentLabel}</span>)
             :(
-              <Link to={`/post/${id}`}>           
+              <Link to={`/${category}/${id}`}>           
                {commentIcon}
                {commentLabel}
              </Link>)                      
@@ -84,7 +84,7 @@ class MyPost extends Component {
           </span>         
           ,
           <span>
-          <Link to={`/posts/${category}`}>           
+          <Link to={`/${category}`}>           
               <Icon
                 type="tags"
                 style={iconStyles}
@@ -116,7 +116,7 @@ class MyPost extends Component {
               </span>)
           }else{
             buttons.push(<span>
-              <Link to={`/post/${id}`}>
+              <Link to={`/${category}/${id}`}>
               {replyButton}
               {replyLabel}
               </Link>
@@ -137,7 +137,7 @@ class MyPost extends Component {
            </span>)
 
           buttons.push(<span>           
-           <Link to={`/edit/${id}`}>          
+           <Link to={`/${category}/${id}/edit`}>          
               <Icon
                 type="edit"
                 style={editStyle}
@@ -152,29 +152,29 @@ class MyPost extends Component {
     
     handleReplyTo = (e) =>{
       const {  category } = this.props.post
-      const { dispatch } = this.props      
-      dispatch(enableRedirect(TO_LOGIN, `/posts/${category}`))
+      const { redirect } = this.props      
+      redirect(TO_LOGIN, `/${category}`)
     }
     handleDelete = async (e) => {
         e.preventDefault()
-        const { dispatch, post } = this.props      
-        dispatch(handleDeletePost(post.id))
+        const { deletePost, post } = this.props      
+        deletePost(post.id)
     }
 
     handleUpVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch, post } = this.props
+        const { upVote, post } = this.props
         
-        dispatch(handleUpVotePost(post.id))
+        upVote(post.id)
     }
 
     handleDownVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch, post } = this.props
+        const { downVote, post } = this.props
 
-        dispatch(handleDownVotePost(post.id))
+        downVote(post.id)
     }
     render(){
         const { post, author, authedUser, id } = this.props
@@ -182,7 +182,7 @@ class MyPost extends Component {
         if (authedUser === '' && details){
           comment = (<Col span={24}>
             <div className="new-comment">
-            <Link to={`${TO_LOGIN}?target=/post/${id}`}>
+            <Link to={`${TO_LOGIN}?target=/${post.category}/${id}`}>
               <Alert
               message="Informational Notes"
               description="Signin to add a comment"
@@ -219,7 +219,7 @@ class MyPost extends Component {
                     </div>)
                     : (
                     <div>
-                      <Link to={`/post/${post.id}`}>
+                      <Link to={`/${post.category}/${post.id}`}>
                         <h1>{post.title}</h1>
                         <p>{post.body.length > 60 ? `${post.body.substring(0, 60)}` : post.body}{post.body.length > 60 && (<span style={{fontSize:"0.7em"}}> [show more...]</span>)}</p> 
                       </Link>         
@@ -250,10 +250,19 @@ function mapStateToProps({ users, posts, authedUser }, { id }) {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    redirect: (to, next) => dispatch(enableRedirect(to, next)),
+    deletePost: (id) => dispatch(handleDeletePost(id)),
+    upVote: (id) => dispatch(handleUpVotePost(id)),
+    downVote: (id) => dispatch(handleDownVotePost(id))
+  }
+}
+
 MyPost.propTypes = {
   authedUser: PropTypes.string,
   author: PropTypes.object,
   post: PropTypes.object
 }
 
-export default connect(mapStateToProps)(MyPost)
+export default connect(mapStateToProps, mapDispatchToProps)(MyPost)
