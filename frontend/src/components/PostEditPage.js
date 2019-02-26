@@ -38,16 +38,16 @@ class PostEditPage extends Component{
      */
     handleSubmit = (e) => {
         e.preventDefault();
-        const { dispatch, editMode, post, authedUser } = this.props
+        const { addPost, editPost, editMode, post, authedUser } = this.props
         const message = editMode ? "Do you confirm post update?": "Do you confirm this new post?"
         this.props.form.validateFields((err, values) => {
             if (!err) {                 
                 DialogUtil.showConfirm(message,function(){
                     const { title, body, category } = values
                     if (editMode){
-                        dispatch(handleEditPost(post.id, title, body, category))
+                        editPost(post.id, title, body, category)
                     }else{
-                        dispatch(handleAddPost(title, body, authedUser, category))
+                        addPost(title, body, authedUser, category)
                     }
                     
                 });
@@ -75,7 +75,7 @@ class PostEditPage extends Component{
         if (post && editMode){
             /** In edit mode, redirects to post view mode, if not the author */
             if (post && post.author !== authedUser){
-                return <Redirect to={`/post/${post.id}`}/>
+                return <Redirect to={`/${post.category}/${post.id}`}/>
             }
             title = post.title
             body = post.body
@@ -83,7 +83,7 @@ class PostEditPage extends Component{
         }
         /** Only allows you to create or edit a post if the user is authenticated */
         if (authedUser === ''){
-            return <Redirect to='/signin?target=/new'/>
+            return <Redirect to='/user/signin?target=/post/new'/>
         }         
        
         return (
@@ -152,7 +152,8 @@ class PostEditPage extends Component{
 }
 
 function mapStateToProps({ categories, authedUser, users, posts }, props){    
-    const { id } = props.match.params
+    const { post_id } = props.match.params
+    const id = post_id
     const post = id ? posts[id]  : undefined   
     const user = authedUser.id ? users[authedUser.id] : null
     return {        
@@ -164,6 +165,13 @@ function mapStateToProps({ categories, authedUser, users, posts }, props){
         post       
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {         
+      addPost: (title, body, authedUser, category) => dispatch(handleAddPost(title, body, authedUser, category)),
+      editPost: (id, title, body, category) => dispatch(handleEditPost(id, title, body, category))
+    }
+  }
 
 const WrappedPostEditPage = Form.create()(PostEditPage)
 
@@ -177,4 +185,4 @@ WrappedPostEditPage.propTypes = {
     form: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(WrappedPostEditPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedPostEditPage))
