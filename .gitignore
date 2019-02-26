@@ -13,7 +13,7 @@
 
 # production
 /build
-
+/tools
 # misc
 .DS_Store
 .env.local
