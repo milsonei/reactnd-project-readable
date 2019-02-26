@@ -1,6 +1,8 @@
 import {Form, Button, Input, Row, Col} from 'antd'
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { disableCommentToEdit } from '../actions/commentInEditMode';
 const TextArea = Input.TextArea
 /**
  * Component responsible for create a textarea for inputting comments, 
@@ -18,6 +20,11 @@ class CommentEditor extends Component{
     if (clear){      
       this.setState({
         commentCharsLeft: this.commentMaxLength
+      })
+    }
+    if (nextProps.comment){
+      this.setState({
+        commentCharsLeft: this.commentMaxLength - nextProps.comment.body.length
       })
     }
   }
@@ -40,26 +47,31 @@ class CommentEditor extends Component{
      * Submitting comment
      */
     handleSubmit = (e) => {
-      const {onSubmit, validator} = this.props      
-       if (validator(e)){             
-          onSubmit(e)
+      const {onSubmit, validator, comment} = this.props      
+       if (validator(e)){                      
+          onSubmit(e, comment ? comment.id : '')
       }
     }
 
     render(){
-      const  {submitting, getFieldDecorator, resetFields} = this.props        
-      const { commentCharsLeft } = this.state       
+      const  { getFieldDecorator, resetFields, comment, cancelEditMode } = this.props        
+      const { commentCharsLeft } = this.state          
+      let body = ''  
+      const exists = comment !== null 
+      if (comment){
+        body = comment.body
+      }
       return (
           <div>
             <Form.Item>        
               {getFieldDecorator('comment', {
-                  initialValue: '',
+                  initialValue: body,
                   rules: [{ required: true, message: "Please write something!" }]
                })(                     
                   <TextArea 
                           rows={4}
                           placeholder="Your comment"
-                          className="textarea"
+                          className={`textarea${exists ? ' edit' : ''}`}
                           maxLength={this.bodyLength}
                           onChange={this.handleCommentChange}
                       />  
@@ -68,11 +80,30 @@ class CommentEditor extends Component{
                           {commentCharsLeft} characters left
                       </div>        
             </Form.Item>
+          {exists ? ( <Row>
+              <Col span={12} style={{textAlign:'right', paddingRight:"10px"}}>
+                <Button               
+                  htmlType="submit"
+                  onClick={this.handleSubmit}
+                  type="primary"        
+                >
+                  Update Comment
+                </Button>  
+              </Col>
+              <Col span={12} style={{textAlign:'left'}}>
+                <Button                          
+                  onClick={() => cancelEditMode()}
+                  type="default"        
+                >
+                  Cancel
+                </Button>  
+              </Col>     
+              </Row>)
+          : (
            <Row>
               <Col span={12} style={{textAlign:'right', paddingRight:"10px"}}>
                 <Button               
                   htmlType="submit"
-                  loading={submitting}
                   onClick={this.handleSubmit}
                   type="primary"        
                 >
@@ -87,16 +118,36 @@ class CommentEditor extends Component{
                   Clear
                 </Button>  
               </Col>     
-              </Row>
+              </Row>)}
           </div>
         );
       }
 }
 
-CommentEditor.propTypes = {
-  submitting: PropTypes.bool,
-  getFieldDecorator: PropTypes.func, 
-  resetFields: PropTypes.func 
+function mapStateToProps({ commentInEditMode, comments }, { parentId }) { 
+  let comment = null
+  if (commentInEditMode.id && commentInEditMode.parentId === parentId){
+    comment = {
+      id: commentInEditMode.id,
+      body: comments[commentInEditMode.id].body
+    }
+  }
+  return {
+    comment
+  }
 }
 
-export default CommentEditor
+CommentEditor.propTypes = {
+  parentId: PropTypes.string,
+  getFieldDecorator: PropTypes.func, 
+  resetFields: PropTypes.func,
+  comment: PropTypes.object
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    cancelEditMode: () => dispatch(disableCommentToEdit())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentEditor)
