@@ -6,7 +6,7 @@ import {
 } from 'react-redux-loading'
 import {
     showError
-} from '../actions/error'
+} from './alerts'
 import { enableRedirect } from './redirect';
 import { deleteAllComments } from './comments';
 import { setSuccess } from './success';
@@ -138,7 +138,7 @@ export function handleEditPost(id, title, body, category) {
         try {
             await postApi.edit(id, title, body, category)
             dispatch(editPost(id, title, body, category))
-            dispatch(enableRedirect(`/post/${id}`))
+            dispatch(enableRedirect(`/${category}/${id}`))
         } catch (e) {
             dispatch(showError('Edit post', 'The was an error editing post. Try again.'));
         }
