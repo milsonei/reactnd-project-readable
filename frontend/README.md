@@ -158,7 +158,7 @@ A new browser window should automatically open displaying the app. If it doesn't
 - To add a comment, click the post you want to show details. Now just write your comment and add. Good luck!
  ![Add Comment](src/images/screenshots/add-comment.jpg "add-comment")
 - After you add a comment, it will be added to the comment list below the post, where you can edit or delete it, if desired.
- ![Post and Comments](src/images/screenshots/post-and-comments.jpg "post-and-comments")
+ ![Post and Comments](src/images/screenshots/post-and-comments-view.jpg "post-and-comments")
 - You can vote for a post or comment by just clicking the + to up vote and - to down vote buttons ![Vote Score](src/images/screenshots/vote-score.jpg "vote-score"). Feel free!
 - To edit a comment, click the edit icon that the comment will load into the editor.
  ![Edit comment](src/images/screenshots/edit-comment.jpg "edit-comment")
