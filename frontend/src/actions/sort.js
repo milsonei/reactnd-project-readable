@@ -2,7 +2,7 @@ import {
     showLoading,
     hideLoading
 } from 'react-redux-loading'
-import { showError } from './error';
+import { showError } from './alerts';
 export const SORT = "SORT"
 /**
  * 
