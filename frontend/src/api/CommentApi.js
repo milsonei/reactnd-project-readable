@@ -66,13 +66,11 @@ class CommentApi extends BaseApi {
     /**
      * Edit the details of an existing comment
      * @param {string} id Comment id
-     * @param {timestamp} timestamp Comment timestamp
      * @param {string} body Comment body
      * @param {function} onSuccess function executed on success request
      * @param {function} onError function executed on error request
      */
     edit = (id, timestamp, body, onSuccess, onError) => this.putRequest(`${this.url}/${id}`, {
-        timestamp,
         body
     }, onSuccess, onError)
 }
