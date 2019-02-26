@@ -17,7 +17,7 @@ class Nav extends Component {
       }
 
       handleSignout = (e) => {        
-          this.props.dispatch(handleSignout())
+          this.props.signout()
       }
 
 	  handleClick = (e) => {
@@ -28,7 +28,7 @@ class Nav extends Component {
     /**
      * The page redirect point like filter
      */
-    componentWillReceiveProps = (nextProps) => {           
+    componentWillReceiveProps = (nextProps) => {              
         if (nextProps.location){
             const pathname = nextProps.location.pathname
             if (nextProps.redirect){
@@ -37,10 +37,10 @@ class Nav extends Component {
                     if (pathname === to){
                         if (pathname.toLowerCase().indexOf('/new') > -1){
                             if(nextProps.authedUser !== ''){
-                                this.props.dispatch(handleDisableRedirect())
+                                this.props.disableRedirect()
                             } 
                         }else{
-                            this.props.dispatch(handleDisableRedirect())  
+                            this.props.disableRedirect()
                         }
                         
                     }else{
@@ -50,8 +50,8 @@ class Nav extends Component {
                     }
                 }
             }
-            if (pathname !== '/'){               
-                this.props.dispatch(handleClearSearch())       
+            if (pathname !== '/' && this.props.hasSearch){               
+                this.props.clearSearch()       
             }
         }
     }    
@@ -61,12 +61,12 @@ class Nav extends Component {
      * @param {string} field Field name for sorting
      */
     render(){ 
-        const currentUrl = this.props.location.pathname.toLowerCase();
-        const isMyPostViewPage = currentUrl.indexOf('/post') > -1
-        const isMyCommentPage = currentUrl.indexOf('/comment') > -1
-        const showCategories = currentUrl === '/' || isMyPostViewPage
-        const menuMyItem = isMyPostViewPage ? "Post" : isMyCommentPage ? "Comment": ""
-        const { authedUser, avatar } = this.props
+        const { categories, location, authedUser, avatar } = this.props        
+        const currentUrl = location.pathname.toLowerCase();
+        const currentCategory = categories.filter(category => currentUrl.indexOf(`/${category}`) > -1)        
+        const isMyPostViewPage = currentCategory.length > 0
+        const showCategories = currentUrl.indexOf('/user') === -1
+        const menuMyItem = isMyPostViewPage ? "Post" : ""
         const signout = authedUser !== ''
         const SubMenu = Menu.SubMenu;
         return(
@@ -82,13 +82,13 @@ class Nav extends Component {
                                 </NavLink>
                 </Menu.Item>
                 <Menu.Item key="new-post">
-                    <NavLink to='/new' exact >
+                    <NavLink to='/post/new' exact >
                     <Icon type="file-add" />New Post
                     </NavLink>
                 </Menu.Item>
                 {menuMyItem && (<Menu.Item key="my-post">
                     <NavLink to={currentUrl} exact >
-                    <Icon type="solution" />My {menuMyItem}
+                    <Icon type="solution" />My Post
                     </NavLink>
                 </Menu.Item>)}  
                 {showCategories && (
@@ -97,12 +97,12 @@ class Nav extends Component {
                 </Menu.Item>)}
                 {signout && (  <SubMenu key="user" className="user" title={<span className="submenu-title-wrapper"><Avatar style={{marginLeft:"10px"}} size={32} src={avatar}/>&nbsp;Wellcome, {authedUser}</span>}> 
                     <Menu.Item key="profile">
-                        <NavLink to="/profile" exact>
+                        <NavLink to="/user/profile" exact>
                             <Icon type="user" />Profile
                         </NavLink>
                     </Menu.Item>
                     <Menu.Item key="profile">
-                        <NavLink to="/change-password" exact>
+                        <NavLink to="/user/change-password" exact>
                             <Icon type="key" />Change Password
                         </NavLink>
                     </Menu.Item>
@@ -114,7 +114,7 @@ class Nav extends Component {
                 </SubMenu>)}
                 {!signout && (
                 <Menu.Item key="signin" style={{float:"right"}}>
-                    <NavLink to="/signin" exact>
+                    <NavLink to="/user/signin" exact>
                         <Icon type="login" />Signin
                     </NavLink>
                 </Menu.Item>)}
@@ -124,19 +124,31 @@ class Nav extends Component {
     }
 }
 
-function mapStateToProps({ authedUser, users, redirect }){
+function mapStateToProps({ authedUser, users, redirect, categories, search }){
     const user = authedUser && authedUser.id ? authedUser.id : ''
     return {     
         authedUser : user,
         avatar: user ? users[user].avatar : '',
+        categories: categories ? Object.keys(categories): [],
+        hasSearch: search && search.text ? true : false,
         redirect
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {  
+      signout: () => dispatch(handleSignout()),
+      disableRedirect: () => dispatch(handleDisableRedirect()),
+      clearSearch: () =>dispatch(handleClearSearch())
+    }
+  }
+  
 Nav.propTypes = {
     authedUser: PropTypes.string,
     avatar: PropTypes.string,
-    redirect: PropTypes.object
+    categories: PropTypes.array,
+    redirect: PropTypes.object,    
+    hasSearch: PropTypes.bool
 }
 
-export default withRouter(connect(mapStateToProps)(Nav))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav))
