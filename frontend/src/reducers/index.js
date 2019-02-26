@@ -11,6 +11,7 @@ import remember from './remember'
 import success from './success'
 import loaded from './loaded'
 import search from './search'
+import commentInEditMode from './commentInEditMode'
 import { loadingBarReducer } from 'react-redux-loading'
 
 export default combineReducers({
@@ -25,6 +26,7 @@ export default combineReducers({
     search,
     redirect,
     success, 
+    commentInEditMode,
     loaded, 
     loadingBar: loadingBarReducer
 })
