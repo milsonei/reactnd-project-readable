@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import FeedPage from './FeedPage'
@@ -12,31 +12,49 @@ import LoginPage from './LoginPage'
 import PropTypes from 'prop-types'
 import '../css/App.css'
 import "antd/dist/antd.css";
+import NotFoundComponent from './NotFoundComponent ';
 class App extends Component {
-  componentDidMount(){
-    this.props.dispatch(handleInitialData())
+  componentDidMount(){    
+    this.props.getInitialData()
   }
 
   render() {
+   const { categories, loading } = this.props
     return (
       <Router>
         <Fragment>
           <LoadingBar/>
           <Nav/>                  
             { 
-              this.props.loading === true
+              loading === true
               ? null
               : 
-              <div className='container'>   
+              <div className='container'>
+              {
+               /*                
+                * As new routes were included, besides those requested by the project, 
+                * it was necessary to create a strategy to maintain the compatibility of the route :category
+                * The solution was to generate the route directly for each category, so it was possible to make the correct match when loading the url address
+                */ 
+              }
+              <Switch>
                 <Route path='/' exact component={FeedPage}/>
-                <Route path='/signin' exact component={LoginPage}/>    
-                <Route path='/join' exact component={UserEditPage}/>
-                <Route path='/profile' exact component={UserEditPage}/>
-                <Route path='/change-password' exact component={UserEditPage}/>
-                <Route path='/post/:id' exact component={PostViewPage}/>
-                <Route path='/posts/:id' exact component={FeedPage}/>
-                <Route path='/new' exact component={PostEditPage}/>
-                <Route path='/edit/:id' exact component={PostEditPage}/>
+                {
+                  categories.map(category => (<Route exact key={`/${category}-view`} path={`/${category}/:post_id`} component={PostViewPage}/>))
+                }
+                {
+                  categories.map(category => (<Route exact key={`/${category}-edit`} path={`/${category}/:post_id/edit`} component={PostEditPage}/>))
+                }
+                {
+                  categories.map(category => (<Route exact key={`/${category}-group`} path={`/${category}`} component={FeedPage}/>))
+                }     
+                <Route path='/post/new' exact component={PostEditPage}/>   
+                <Route path='/user/signin' exact component={LoginPage}/>    
+                <Route path='/user/join' exact component={UserEditPage}/>
+                <Route path='/user/profile' exact component={UserEditPage}/>
+                <Route path='/user/change-password' exact component={UserEditPage}/>
+                <Route path='*' component={NotFoundComponent}/>
+              </Switch>
               </div>
             }
           
@@ -46,14 +64,21 @@ class App extends Component {
   }
 }
 
-function mapStateToPropos({ loaded }){
+function mapStateToPropos({ loaded, categories }){
   return {
-    loading: loaded == null
+    loading: loaded == null,
+    categories: categories ? Object.keys(categories) : []
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getInitialData: () => dispatch(handleInitialData())
   }
 }
 
 PostEditPage.propTypes = {
-  loading: PropTypes.bool 
+  loading: PropTypes.bool
 }
 
-export default connect(mapStateToPropos)(App)
+export default connect(mapStateToPropos, mapDispatchToProps)(App)
