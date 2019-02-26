@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk'
 import logger from './logger'
-import error from './error'
+import alerts from './alerts'
 import cache from './cache'
 import { applyMiddleware } from 'redux'
 /**
@@ -9,6 +9,6 @@ import { applyMiddleware } from 'redux'
 export default applyMiddleware(
     thunk,
     logger,
-    error,
+    alerts,
     cache 
 )

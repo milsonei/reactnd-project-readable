@@ -7,7 +7,7 @@ import {
 } from 'react-redux-loading'
 import {
     showError
-} from './error'
+} from './alerts'
 import { enableRedirect, TO_LOGIN } from './redirect';
 import { handleSignout } from './authedUser';
 export const ADD_USER = 'ADD_USER'

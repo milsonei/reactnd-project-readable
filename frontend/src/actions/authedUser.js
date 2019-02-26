@@ -5,7 +5,7 @@ import {
 } from 'react-redux-loading'
 import {
     showError
-} from './error'
+} from './alerts'
 import Utilities from '../utils/Utilities';
 import { setRemember } from './remember';
 import { receiveNewAvatar } from './avatar';

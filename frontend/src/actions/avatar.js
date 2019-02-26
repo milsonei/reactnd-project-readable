@@ -1,5 +1,5 @@
 import Utilities from "../utils/Utilities";
-import { showError } from "./error";
+import { showError } from "./alerts";
 import { hideLoading, showLoading } from "react-redux-loading";
 
 export const RECEIVE_NEW_AVATAR = 'RECEIVE_NEW_AVATAR'
