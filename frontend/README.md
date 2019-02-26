@@ -161,7 +161,7 @@ A new browser window should automatically open displaying the app. If it doesn't
  ![Post and Comments](src/images/screenshots/post-and-comments-view.jpg "post-and-comments")
 - You can vote for a post or comment by just clicking the + to up vote and - to down vote buttons ![Vote Score](src/images/screenshots/vote-score.jpg "vote-score"). Feel free!
 - To edit a comment, click the edit icon that the comment will load into the editor.
- ![Edit comment](src/images/screenshots/edit-comment.jpg "edit-comment")
+ ![Edit comment](src/images/screenshots/edit-comment.jpg?x=1 "edit-comment")
 - In the user menu, options are available to view and edit the profile, change the password, and exit the application.
 - In the profile you can choose a new avatar.
  ![Profile](src/images/screenshots/edit-profile.jpg "edit-profile")
