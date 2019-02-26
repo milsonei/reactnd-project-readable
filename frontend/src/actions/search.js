@@ -2,7 +2,7 @@ import {
     showLoading,
     hideLoading
 } from 'react-redux-loading'
-import { showError } from './error';
+import { showError } from './alerts';
 export const CLEAR_SEARCH = "CLEAR_SEARCH"
 export const SET_SEARCH = "SET_SEARCH"
 
@@ -22,7 +22,7 @@ export function setSearch(text){
  */
 export function clearSearch(){    
     return {
-        type: SET_SEARCH
+        type: CLEAR_SEARCH
     }
 }
 
@@ -46,11 +46,11 @@ export function handleSetSearch(text) {
  * The handler responsible for searching posts and comments
  * @param {string} text The text to search
  */
-export function handleClearSearch(text) {
+export function handleClearSearch() {
     return async (dispatch) => {
         dispatch(showLoading)
         try {           
-            dispatch(clearSearch(text))
+            dispatch(clearSearch())
         } catch (e) {
             dispatch(showError('Search', `The was an error search posts and comments. Try again.`));
         }
