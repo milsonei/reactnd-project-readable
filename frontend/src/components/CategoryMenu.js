@@ -12,11 +12,11 @@ function CategoryMenu(props){
   const menu = (
                 <Menu key="category-menu">
                    <Menu.Item key="all">
-                    <div onClick={()=> props.dispatch(enableRedirect("/"))}>All</div>            
+                    <div onClick={()=> props.redirect("/")}>All</div>            
                   </Menu.Item>
                 {(Object.keys(categories).map(category => (
                     <Menu.Item key={category}>
-                      <div onClick={()=> props.dispatch(enableRedirect(`/posts/${category}`))}>{category}</div>                      
+                      <div onClick={()=> props.redirect(`/${category}`)}>{category}</div>                      
                     </Menu.Item>)))}   
                 </Menu>
               );       
@@ -33,8 +33,14 @@ function CategoryMenu(props){
       }
   }
   
+  const mapDispatchToProps = dispatch => {
+    return {
+      redirect: (url) => dispatch(enableRedirect(url))
+    }
+  }
+
   CategoryMenu.propTypes = {
     categories: PropTypes.object 
   }
 
-  export default connect(mapStateToProps)(CategoryMenu)
+  export default connect(mapStateToProps, mapDispatchToProps)(CategoryMenu)

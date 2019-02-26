@@ -23,12 +23,13 @@ class LoginPage extends Component {
      */
     componentWillReceiveProps = (nextProps) => {
         if (nextProps.authedUser !== ''){  
-            const targetAfterLogin = Utilities.extractTargetUrl(this.props.location)        
+            const targetAfterLogin = Utilities.extractTargetUrl(this.props.location)
+            const { redirect, clearSuccess } = this.props
             if (targetAfterLogin){             
-                this.props.dispatch(enableRedirect(targetAfterLogin));
-                this.props.dispatch(clearSuccess())                
+                redirect(targetAfterLogin);
+                clearSuccess()               
             }else{
-                this.props.dispatch(enableRedirect('/'))
+                redirect('/')
             }
         }
     }
@@ -37,10 +38,10 @@ class LoginPage extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            const { dispatch } = this.props
+            const { signin } = this.props
             const { nickname, password, remember } = values
-            const passwordCrypted = SecurityUtil.encr(password)            
-            dispatch(handleSignin(nickname, passwordCrypted, remember))      
+            const passwordCrypted = SecurityUtil.encr(password)
+            signin(nickname, passwordCrypted, remember)
           }
         });
       }
@@ -88,7 +89,7 @@ class LoginPage extends Component {
                    
                     </Form.Item>
                     <Form.Item style={{textAlign:"center"}}>
-                    <Link to={`/join`}>or register now!</Link>
+                    <Link to={`/user/join`}>or register now!</Link>
                     </Form.Item>
 
                     <Form.Item>
@@ -113,6 +114,14 @@ function mapStateToProps({ authedUser, remember }){
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+      redirect: (to) => dispatch(enableRedirect(to)),
+      clearSuccess: () => dispatch(clearSuccess()),
+      signin: (nickname, passwordCrypted, remember) => dispatch(handleSignin(nickname, passwordCrypted, remember))
+    }
+}
+
 const WrappedLoginPage = Form.create({ name: 'login_page' })(LoginPage);
 
 WrappedLoginPage.propTypes = {
@@ -121,4 +130,4 @@ WrappedLoginPage.propTypes = {
     form: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(WrappedLoginPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedLoginPage))

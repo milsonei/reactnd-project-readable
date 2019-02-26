@@ -23,7 +23,7 @@ class UserEditPage extends Component {
      */
     handleSubmit = (e) => {
         e.preventDefault();
-        const { dispatch, editMode, changePassword } = this.props
+        const { changeAvatar, changePasswod, addUser, editMode, changePassword } = this.props
       
         this.props.form.validateFields((err, values) => {            
             if (!err) {
@@ -31,7 +31,7 @@ class UserEditPage extends Component {
                 if (editMode) {
                     const { nickname, gender } = values
                     DialogUtil.showConfirm('Do you confirm this update?',function(){
-                        dispatch(handleChangeAvatar(nickname, gender, avatar))
+                        changeAvatar(nickname, gender, avatar)
                     })
                 }else if (changePassword){
                     const { nickname, password, currentPassword } = values
@@ -41,13 +41,13 @@ class UserEditPage extends Component {
                        const encryptedPassword = SecurityUtil.encr(password)
                        const encryptedCurrentPassword = SecurityUtil.encr(currentPassword)
                         DialogUtil.showConfirm('Do you confirm change your password?',function(){
-                            dispatch(handleChangePassword(nickname, encryptedCurrentPassword, encryptedPassword))
+                            changePasswod(nickname, encryptedCurrentPassword, encryptedPassword)
                         })
                     }                   
                 }else{
                     const { nickname, gender, password } = values  
                     const encryptedPassword = SecurityUtil.encr(password)
-                    dispatch(handleAddUser(nickname, gender, avatar, encryptedPassword))  
+                    addUser(nickname, gender, avatar, encryptedPassword)
                 }
             }
         });
@@ -87,25 +87,25 @@ class UserEditPage extends Component {
      * Function responsible for requesting a new avatar
      */
     handleGenerateNewAvatar = (e) =>{
-        const { dispatch } = this.props
+        const { generateAvatar } = this.props
         const form = this.props.form;
-        dispatch(handleGenerateAvatar(form.getFieldValue('gender')))  
+        generateAvatar(form.getFieldValue('gender'))
     }
 
     /***
      * Function responsible for requesting a new avatar after change gender user
      */
     handleGenderChange = (gender) =>{
-        const { dispatch } = this.props
-        dispatch(handleGenerateAvatar(gender))  
+        const { generateAvatar } = this.props
+        generateAvatar(gender) 
     }
 
     handleCancel = (e) => {
-        const { dispatch, user } = this.props
+        const { rollbackAvatar, redirect, user } = this.props
         if (user){
-            dispatch(receiveNewAvatar(user.avatar, user.gender))
+            rollbackAvatar(user.gender, user.avatar)
          }
-         dispatch(enableRedirect('/signin'))
+         redirect('/user/signin')
     }
 
      /**
@@ -293,6 +293,17 @@ function mapStateToProps({ authedUser, avatar, users }, props){
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {         
+      changeAvatar: (nickname, gender, avatar) =>  dispatch(handleChangeAvatar(nickname, gender, avatar)),
+      changePasswod: (nickname, encryptedCurrentPassword, encryptedPassword) => dispatch(handleChangePassword(nickname, encryptedCurrentPassword, encryptedPassword)),
+      addUser: (nickname, gender, avatar, encryptedPassword) => dispatch(handleAddUser(nickname, gender, avatar, encryptedPassword)),
+      generateAvatar: (gender) =>  dispatch(handleGenerateAvatar(gender)),
+      rollbackAvatar: (gender, avatar) => dispatch(receiveNewAvatar(gender, avatar)),
+      redirect: (to) => dispatch(enableRedirect(to))
+    }
+}
+
 const WrappedUserEditPage = Form.create({ name: 'new_user_page' })(UserEditPage);
 
 WrappedUserEditPage.propTypes = {       
@@ -303,4 +314,4 @@ WrappedUserEditPage.propTypes = {
     form: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(WrappedUserEditPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedUserEditPage))

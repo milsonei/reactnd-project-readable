@@ -18,7 +18,7 @@ class SortSelector extends Component{
      * @param {string} field field name for sorting
      */                  
     handleChange(field){         
-      this.props.dispatch(handleSetSort(field, this.menuItems[field].mode, this.getType()))
+      this.props.sort(field, this.menuItems[field].mode, this.getType())
     }
     /**
      * Get type of sort - posts or comments
@@ -78,6 +78,12 @@ function mapStateToProps({ sort }, { type = 'posts' }){
     }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {         
+    sort: (field, mode, itemToSort) => dispatch(handleSetSort(field, mode, itemToSort))
+  }
+}
+
 const WrappedSortSelector = Form.create()(SortSelector)
 
 WrappedSortSelector.propTypes = {
@@ -85,4 +91,4 @@ WrappedSortSelector.propTypes = {
   form: PropTypes.object
 }
 
-export default connect(mapStateToProps)(WrappedSortSelector)
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedSortSelector)

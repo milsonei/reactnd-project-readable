@@ -12,7 +12,7 @@ class SearchInput extends Component{
      * @param {string} field field name for sorting
      */                  
     handleSearch(value){      
-        this.props.dispatch(handleSetSearch(value))
+        this.props.search(value)      
     }
            
     render(){        
@@ -45,4 +45,10 @@ class SearchInput extends Component{
 
 const WrappedSearchInput = Form.create()(SearchInput)
 
-export default connect()(WrappedSearchInput)
+const mapDispatchToProps = dispatch => {
+  return {         
+    search: (text) => dispatch(handleSetSearch(text))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(WrappedSearchInput)
