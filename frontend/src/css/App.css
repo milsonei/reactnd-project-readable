@@ -342,3 +342,7 @@ padding: 0;
 .ant-avatar-image{
   background-color: #57bec8!important;
 }
+
+#my-post .edit{
+  background-color: lightcyan;
+}
