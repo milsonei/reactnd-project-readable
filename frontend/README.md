@@ -31,7 +31,8 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── avatar.js #Action creator for Avatar with receive new avatar action.#
 │    │   ├── categories.js #Action creator for Categories with receive new categories action.#│
 │    │   ├── comments.js #Action creator for Comments with receive, add and delete categories action.#	
-│    │   ├── error.js #Action creator to show an error notification about the previous action having completed with error.#
+│    │   ├── commentInEditMode.js #Action creator to enable edit mode for comments#
+│    │   ├── alerts.js #Action creator to show an error and alert notification about the previous action having completed with error.#
 │    │   ├── loaded.js #Action creator for indicate that app was loaded.#
 │    │   ├── posts.js #Action creator for Posts with CRUD, incremend and decrement comment counter actions.#
 │    │   ├── redirect.js #Indicates that a route redirection will occur.#
@@ -59,6 +60,7 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── MyComment.js #Component responsible for displaying all details of a comment, such as author, creation time, and buttons to increment or decrement the comment score. If the logged in user is the author, he or she can delete the comment.#
 │    │   ├── MyPost.js #Component responsible for displaying all details of a post, such as author, creation time, comments counter, category, and buttons to increment or decrement the posting score. If the logged in user is the author, they can delete or edit the post in view mode. The following React UI library ANTD components are used: Alert, Comment, Icon, Tooltip, Avatar, Row, Col and Popconfirm.#
 │    │   ├── Nav.js #Component responsible for generating the top menu of the application. Because it is a component that is rendered on all pages, it serves as the point of redirection. This component renders the Menu, Icon and Avatar components from React UI library ANTD.#	
+│    │   ├── NotFoundComponent.js #Component responsible for generating a page not found alert. This component renders the Alert from React UI library ANTD.#	
 │    │   ├── PostEditPage.js #Component responsible for rendering a page for creating and editing a particular post. The AND components used on this page are: Avatar, Tooltip, Select, Form, Button, Input.#
 │    │   ├── PostViewPage.js #Component responsible for creating the preview page for all details of a particular post and the comments associated with this post. The AND components used on this page are: Form, Avatar, Comment, and Col.#
 │    │   ├── SearchInput.js #Component responsible for creating a search field based on the Search component from React UI library ANTD#
@@ -66,7 +68,7 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── UserEditPage.js #Component responsible for rendering a page for creating and editing a particular user. The AND components used on this page are: Icon, Form, Button, Input, Avatar, Tooltip, Select, Row, Col.#
 │    ├── middleware
 │    │   ├── cache.js #Middleware responsible for being a common point of capture and storage in the local data storage coming from several actions.#
-│    │   ├── error.js #Middleware responsible for being a common point to capture and view the error message using the notification component from React UI library ANTD.#
+│    │   ├── alerts.js #Middleware responsible for being a common point to capture and view the error and info message using the notification component from React UI library ANTD.#
 │    │   ├── index.js #Initialize store and dispatch, which will be used later.#
 │    │   └── logger.js #Middleware responsible for logging action details and status details in the browser console. Available only in the development environment.#	
 │    ├── model
@@ -78,6 +80,7 @@ The project uses Node.js and the Create-React-App starter. If you do not have **
 │    │   ├── avatar.js
 │    │   ├── categories.js
 │    │   ├── comments.js
+│    │   ├── commentInEditMode.js
 │    │   ├── index.js #combine reducers#
 │    │   ├── loaded.js 
 │    │   ├── posts.js 
