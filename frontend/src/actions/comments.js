@@ -1,9 +1,10 @@
 import commentApi from '../api/CommentApi'
 import Comment from '../model/Comment'
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { showError } from './error';
+import { showError } from './alerts';
 import { incrementCommentCounter, decrementCommentCounter } from './posts';
 import { setSuccess } from './success';
+import { disableCommentToEdit } from './commentInEditMode';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const EDIT_COMMENT = 'EDIT_COMMENT'
@@ -156,6 +157,7 @@ export function handleDeleteComment(postId, id){
         return dispatch(hideLoading);    
     }
 }
+
 /**
  * The handler responsible for sending changed comment details
  * @param {string} id The id of the comment 
@@ -167,6 +169,8 @@ export function handleEditComment(id, body) {
         try {
             await commentApi.edit(id, body)
             dispatch(editComment(id, body))
+            dispatch(setSuccess());
+            dispatch(disableCommentToEdit())
         } catch (e) {
             dispatch(showError('Edit comment', 'The was an error editing comment. Try again.'));
         }
