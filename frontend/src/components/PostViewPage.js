@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect, withRouter } from 'react-router-dom'
 import MyPost from './MyPost'
 import CommentList from './CommentList'
-import { handleAllComments, handleAddComment } from '../actions/comments'
+import { handleAllComments, handleAddComment, handleEditComment } from '../actions/comments'
 import CommentEditor from './CommentEditor'
 import { Form, Avatar, Comment, Col } from 'antd'
 import SortSelector from './SortSelector'
@@ -13,19 +13,19 @@ import PropTypes from 'prop-types';
 /**
  * Component responsible for creating the preview page for all details of a particular post and the comments associated with this post. The AND components used on this page are: Form, Avatar, Comment, and Col.
  */
-class PostViewPage extends Component{
-    state = {
-        submitting: false,
-        
+class PostViewPage extends Component{  
+   state = {
+        clearComment: false
     }
+
     async componentWillMount(){
         document.title = this.props.title;     
-        this.props.dispatch(handleAllComments(this.props.id))
+        this.props.getAllComments(this.props.id)
     }
 
     componentWillReceiveProps = (nextProps) => {                 
         if (nextProps.success.yes){            
-            this.props.dispatch(clearSuccess())    
+            this.props.clearSuccess()    
             const { resetFields }  = this.props.form
             resetFields()
             this.setState({
@@ -35,13 +35,20 @@ class PostViewPage extends Component{
        }
     /**
      * This function is responsible for submiting data to server
+     * @param e event
+     * @param currentId current comment id
      */
-    handleSubmitComment = (e) => { 
-        const { dispatch } = this.props
+    handleSubmitComment = (e, currentId) => { 
+        const { addComment, updateComment } = this.props
         const { author, id } = this.props        
         this.validate(e, (values) => {                                     
-            const { comment } = values                  
-            dispatch(handleAddComment(id, comment, author.id))
+            const { comment } = values     
+            if (currentId){
+                updateComment(currentId, comment)
+            }else{
+                addComment(id, comment, author.id)
+            }
+            
         })
     }
 
@@ -53,16 +60,9 @@ class PostViewPage extends Component{
         let validated = false                 
         this.props.form.validateFields((err, values) => {
             validated = !err           
-            if (callback && validated){
-                this.setState({
-                    submitting : true
-                 })    
+            if (callback && validated){               
                 DialogUtil.showConfirm('Do you confirm this comment?', () => {                              
                     callback(values)
-                }, () => {
-                    this.setState({
-                        submitting : false
-                     })
                 })
             }
         });   
@@ -75,7 +75,7 @@ class PostViewPage extends Component{
         }
         const { id, author, commentCount } = this.props        
         const { getFieldDecorator, resetFields } = this.props.form
-        const { submitting, clearComment } = this.state
+        const { clearComment } = this.state
         const showCommentList = commentCount > 0
         const showSort = commentCount > 1
         return (
@@ -98,12 +98,12 @@ class PostViewPage extends Component{
                                                 icon="user"
                                                 alt="anonnymous"/>)}
                                             content={(
-                                                <CommentEditor getFieldDecorator={getFieldDecorator} 
+                                                <CommentEditor parentId={id}
+                                                               getFieldDecorator={getFieldDecorator} 
                                                                resetFields={resetFields}
                                                                validator={this.validate} 
                                                                onSubmit={this.handleSubmitComment} 
-                                                               clear={clearComment}
-                                                               submitting={submitting}/>
+                                                               clear={clearComment}/>
                                             )}
                                             />                
                                     
@@ -132,18 +132,27 @@ class PostViewPage extends Component{
 }
 
 function mapStateToProps({ authedUser, users, success, posts, redirect }, props){
-    const { id } = props.match.params 
-    const post = posts[id]   
+    const { post_id } = props.match.params 
+    const post = posts[post_id]   
     return {
         author: authedUser.id ? { id: authedUser.id, avatar: users[authedUser.id].avatar} : { id: '' },
         commentCount: post ? post.commentCount : 0,
         success,
         exists: post !== undefined,
-        id,
+        id: post_id,
         title: post ? post.title : '',
         redirect
      }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {         
+      getAllComments: (postId) => dispatch(handleAllComments(postId)),
+      clearSuccess: () => dispatch(clearSuccess()),
+      addComment: (postId, comment, authorId) =>  dispatch(handleAddComment(postId, comment, authorId)),
+      updateComment: (id, comment) =>  dispatch(handleEditComment(id, comment))
+    }
+  }
 
 const WrappedPostViewPage = Form.create({ name: 'post_page' })(PostViewPage);
 
@@ -158,4 +167,4 @@ WrappedPostViewPage.propTypes = {
     form: PropTypes.object
 }
 
-export default withRouter(connect(mapStateToProps)(WrappedPostViewPage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WrappedPostViewPage))
