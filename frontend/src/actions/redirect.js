@@ -2,7 +2,7 @@ import { showLoading, hideLoading } from "react-redux-loading";
 
 export const ENABLE_REDIRECT = "ENABLE_REDIRECT"
 export const DISABLE_REDIRECT = "DISABLE_REDIRECT"
-export const TO_LOGIN = '/signin'
+export const TO_LOGIN = '/user/signin'
 export const TO_HOME = '/'
 /**
  * Indicates that a route redirection will occur
