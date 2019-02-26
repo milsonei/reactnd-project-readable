@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { handleUpVoteComment, handleDownVoteComment, handleDeleteComment } from '../actions/comments'
+import { handleEnableCommentToEdit } from '../actions/commentInEditMode'
 import moment from 'moment';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {
-    Comment, Icon, Tooltip, Avatar, Popconfirm
+    Comment, Icon, Tooltip, Avatar, Popconfirm, Tag
   } from 'antd';
   /**
    * Component responsible for displaying all details of a comment, such as author, creation time, and buttons to increment or decrement the comment score. If the logged in user is the author, he or she can delete the comment.
@@ -20,9 +21,14 @@ class MyComment extends Component{
       color: 'red'
 
     }  
+    const editStyle ={
+      ...iconStyles,
+      color: 'blue'
+
+    }
      const labelStyle = { paddingLeft: 5 }  
      const { voteScore } = this.props.comment
-     const { authedUser, comment } = this.props 
+     const { authedUser, comment, editMode } = this.props 
      const canDelete = authedUser === comment.author
      const buttons = [          
         <span>
@@ -48,7 +54,7 @@ class MyComment extends Component{
         </span>       
       ]
 
-      if (canDelete){
+      if (canDelete && !editMode){
         buttons.push(<span>
           <Tooltip title="Delete this comment">
           <Popconfirm placement="bottomLeft" title="Do you confirm delete this comment?" onConfirm={this.handleDelete} okText="Yes" cancelText="No">       
@@ -62,6 +68,20 @@ class MyComment extends Component{
             </Tooltip>
            
          </span>)
+
+        buttons.push(<span>           
+            <Popconfirm placement="bottomLeft" title="Do you confirm edit this comment?" onConfirm={this.handleEdit} okText="Yes" cancelText="No">          
+            <Icon
+              type="edit"
+              style={editStyle}
+              theme='filled'
+            />                        
+          <span style={labelStyle}>Edit</span>  
+          </Popconfirm>
+          </span>)
+      }
+      if (editMode){
+        buttons.push(<span><Tag color="green">edit mode</Tag></span>)
       }
 
       return buttons
@@ -72,24 +92,33 @@ class MyComment extends Component{
      */
     handleDelete = async (e) => {
       e.preventDefault()
-      const { dispatch, comment } = this.props      
-      dispatch(handleDeleteComment(comment.parentId, comment.id))
+      const { deleteComment, comment } = this.props
+      deleteComment(comment.parentId, comment.id)
+   }
+
+    /**
+     * Handle delete comment
+     */
+    handleEdit = async (e) => {
+      e.preventDefault()
+      const { setEditMode, comment } = this.props
+      setEditMode(comment.parentId, comment.id)
    }
 
     handleUpVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch, comment } = this.props
+        const { upVote, comment } = this.props
         
-        dispatch(handleUpVoteComment(comment.id))
+        upVote(comment.id)
     }
 
     handleDownVote = async (e) => {
         e.preventDefault()
 
-        const { dispatch, comment } = this.props
+        const { downVote, comment } = this.props
 
-        dispatch(handleDownVoteComment(comment.id))
+        downVote(comment.id)
     }
 
     render(){    
@@ -120,20 +149,32 @@ class MyComment extends Component{
     }
   }
 
-  function mapStateToProps({ users, comments, authedUser }, { id }) {
+  function mapStateToProps({ users, comments, authedUser, commentInEditMode}, { id }) {
+    const commentToEdit = commentInEditMode.id ? commentInEditMode.id : ''
     const comment = comments[id]
     const author = users[comment.author]
     return {
         authedUser: authedUser.id || "",
         author,        
-        comment        
+        comment,
+        editMode: commentToEdit === id    
     }
 }
 
-MyComment.propTypes = {
-  authedUser: PropTypes.string,
-  author: PropTypes.object,
-  comment: PropTypes.object
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteComment: (parentId, id) => dispatch(handleDeleteComment(parentId, id)),
+    setEditMode: (parent, id) => dispatch(handleEnableCommentToEdit(parent, id)),
+    upVote: (id) => dispatch(handleUpVoteComment(id)),
+    downVote: (id) => dispatch(handleDownVoteComment(id))
+  }
 }
 
-export default connect(mapStateToProps)(MyComment)
+MyComment.propTypes = {   
+  authedUser: PropTypes.string,
+  author: PropTypes.object,
+  comment: PropTypes.object,
+  editMode: PropTypes.bool
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyComment)
