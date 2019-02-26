@@ -6,7 +6,7 @@ import {
     UP_VOTE_COMMENT,
     DOWN_VOTE_COMMENT,
     DELETE_COMMENT,
-    DELETE_ALL_COMMENTS
+    DELETE_ALL_COMMENTS    
 } from '../actions/comments'
 import Utilities from '../utils/Utilities';
 /**
@@ -48,7 +48,7 @@ export default function comments(state = {}, action) {
                     ...state[action.id],
                     deleted: true
                 }
-            }
+            }      
         case DELETE_ALL_COMMENTS:
             const filtered_keys = Object.keys(state).filter(key => state[key].parentId === action.parentId)
             const clone = {...state}
