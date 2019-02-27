@@ -26,8 +26,7 @@ export function disableCommentToEdit(){
 export function handleEnableCommentToEdit(parentId, id){
     return async (dispatch) => {     
         dispatch(showLoading)
-        dispatch(enableCommentToEdit(parentId, id)); 
-        dispatch(showInfo("Edit", "Attention, the comment is in edit mode. You can now update it in the comment editor."));   
+        dispatch(enableCommentToEdit(parentId, id));
         return dispatch(hideLoading);
     }
 }
