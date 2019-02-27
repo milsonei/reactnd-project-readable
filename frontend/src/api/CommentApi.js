@@ -70,7 +70,7 @@ class CommentApi extends BaseApi {
      * @param {function} onSuccess function executed on success request
      * @param {function} onError function executed on error request
      */
-    edit = (id, timestamp, body, onSuccess, onError) => this.putRequest(`${this.url}/${id}`, {
+    edit = (id, body, onSuccess, onError) => this.putRequest(`${this.url}/${id}`, {
         body
     }, onSuccess, onError)
 }
