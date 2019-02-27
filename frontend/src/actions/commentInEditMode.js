@@ -1,6 +1,4 @@
 import { showLoading, hideLoading } from "react-redux-loading";
-import { showInfo } from "./alerts";
-
 export const ENABLE_COMMENT_EDIT_MODE = "ENABLE_COMMENT_EDIT_MODE"
 export const DISABLE_COMMENT_EDIT_MODE = "DISABLE_COMMENT_EDIT_MODE"
 /**
